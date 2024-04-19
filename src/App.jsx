@@ -1,15 +1,14 @@
-import React from 'react';
-import { DatePicker } from 'antd';
+
+import Header from "./Components/Header.jsx";
+
 
 function App() {
 
   return (
     <>
-    <DatePicker/>
-      <h1 className=" underline font-bold text-center">
-        Hello world
-      </h1>
+      <Header/>
     </>
+    
   )
 }
 
