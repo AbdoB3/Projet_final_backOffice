@@ -1,17 +1,18 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     UserSwitchOutlined,
     HomeOutlined,
     UserOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, theme } from 'antd';
+import { Layout, Menu } from 'antd';
 
-
+import { ToggleContext } from './store/ToggleContext';
 
 
 const { Sider } = Layout;
-const SideBar = (props) => {
+const SideBar = () => {
+  const { collapsed } = useContext(ToggleContext);
 
     const items =
         [
@@ -37,7 +38,7 @@ const SideBar = (props) => {
 
     return (
         <>
-            <Sider trigger={null} collapsible collapsed={props.collapsed}>
+            <Sider trigger={null} collapsible collapsed={collapsed}>
                 <div className="demo-logo-vertical" />
                 <Menu
                     theme="dark"
