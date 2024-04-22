@@ -8,18 +8,19 @@ import Header from './Components/Header';
 
 function App() {
   const { Content } = Layout;
-
+  
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
   return (
     <Layout className='h-screen'>
-      <SideBar />
-      <Layout>
-        <Header />
-        <Content
-          className="m-6 p-6 min-h-280 "
+      <Header />
+     <Layout >
+        <div className="flex h-full">
+          <SideBar />
+        </div>
+        <Content className="m-6 p-6 min-h-280 "
           style={{
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
@@ -34,7 +35,7 @@ function App() {
       </Layout>
     </Layout>
 
-  )
+  );
 }
 
 export default App
