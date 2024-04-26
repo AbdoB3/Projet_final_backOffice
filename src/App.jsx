@@ -2,9 +2,9 @@ import React from 'react';
 import SideBar from './Components/SideBar';
 import { Routes, Route } from 'react-router-dom'
 import { Layout, theme } from 'antd';
-import Patient from './Components/Pages/Patient';
-import Doctor from './Components/Pages/Doctor';
 import Header from './Components/Header';
+import ListPation from './Components/Pages/Patient/ListPation';
+import ListDoctor from './Components/Pages/Doctor/ListDoctor';
 
 function App() {
   const { Content } = Layout;
@@ -14,22 +14,23 @@ function App() {
   } = theme.useToken();
 
   return (
-    <Layout className='h-screen'>
+    <Layout >
       <Header />
      <Layout >
-        <div className="flex h-full">
+        <div className="flex min-h-screen">
           <SideBar />
         </div>
-        <Content className="m-6 p-6 min-h-280 "
+        <Content className="m-6 p-6"
           style={{
+            
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
           }}
         >
           <Routes>
             <Route path='/' element={<div>Home</div>} />
-            <Route path='/patient' element={<Patient />} />
-            <Route path='/doctor' element={<Doctor />} />
+            <Route path='/list-patient' element={<ListPation />} />
+            <Route path='/list-doctor' element={<ListDoctor />} />
           </Routes>
         </Content>
       </Layout>
