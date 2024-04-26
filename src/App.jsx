@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom'
 import { Layout, theme } from 'antd';
 import Patient from './Components/Pages/Patient';
 import Doctor from './Components/Pages/Doctor';
+import Home from './Components/Pages/Home';
 import Header from './Components/Header';
 
 function App() {
@@ -27,7 +28,7 @@ function App() {
           }}
         >
           <Routes>
-            <Route path='/' element={<div>Home</div>} />
+            <Route path='/Home' element={<Home/>} />
             <Route path='/patient' element={<Patient />} />
             <Route path='/doctor' element={<Doctor />} />
           </Routes>

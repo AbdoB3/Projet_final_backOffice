@@ -14,7 +14,7 @@ const SideBar = () => {
   const items = [
 
     {
-        key: '/',
+        key: '/home',
         icon: <FontAwesomeIcon icon={faHome} />,
         label: 'Dashboard',
     },
