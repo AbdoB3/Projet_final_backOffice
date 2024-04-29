@@ -7,6 +7,7 @@ import ListPation from "./Components/Pages/Patient/ListPation";
 import ListDoctor from "./Components/Pages/Doctor/ListDoctor";
 import SignIn from  "./Components/Pages/Auth/SignIn"
 import Dashboard from "./Components/Pages/Home";
+import Calendar from './Components/Pages/Calendar';
 
 const MainLayout = ({ children }) => {
   const { Content } = Layout;
@@ -54,6 +55,14 @@ function App() {
         element={
           <MainLayout>
             <ListPation />
+          </MainLayout>
+        }
+      />
+      <Route
+        path="/calendar"
+        element={
+          <MainLayout>
+            <Calendar />
           </MainLayout>
         }
       />
