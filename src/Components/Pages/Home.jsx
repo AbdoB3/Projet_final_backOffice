@@ -18,7 +18,7 @@ function Dashboard() {
             </div>
             <div className="w-full md:w-1/2 flex justify-end items-center">
                 <img
-                    src="src/images/home.png"
+                    src="src/assets/images/home.png"
                     alt="Description de l'image"
                     className="h-full w-auto max-h-40 lg:max-h-32 max-w-full"
                 />
