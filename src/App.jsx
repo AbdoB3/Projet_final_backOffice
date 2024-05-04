@@ -7,6 +7,10 @@ import ListPation from './Components/Pages/Patient/ListPation';
 import ListDoctor from './Components/Pages/Doctor/ListDoctor';
 import Dashboard from './Components/Pages/Home';
 import Calendar from './Components/Pages/Calendar';
+import Appoint from './Components/Pages/Appoint';
+import Profile from './Components/Pages/Profile';
+
+
 
 
 function App() {
@@ -30,10 +34,14 @@ function App() {
           }}
         >
           <Routes>
+
             <Route path='/' element={<Dashboard/>} />
             <Route path='/calendar' element={<Calendar/>} />
+            <Route path='/appointments' element={<Appoint/>} />
             <Route path='/list-patient' element={<ListPation />} />
             <Route path='/list-doctor' element={<ListDoctor />} />
+            <Route path="/profile" element={<Profile/>} />
+
           </Routes>
         </Content>
       </Layout>
