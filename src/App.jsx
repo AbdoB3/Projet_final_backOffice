@@ -8,6 +8,10 @@ import ListDoctor from "./Components/Pages/Doctor/ListDoctor";
 import SignIn from  "./Components/Pages/Auth/SignIn"
 import Dashboard from "./Components/Pages/Home";
 import Calendar from './Components/Pages/Calendar';
+import Appoint from './Components/Pages/Appoint';
+import Profile from './Components/Pages/Profile';
+
+
 
 const MainLayout = ({ children }) => {
   const { Content } = Layout;
@@ -40,6 +44,7 @@ function App() {
 
 
   return (
+
     <Routes>
       <Route
         path="/"
@@ -51,10 +56,26 @@ function App() {
       />
       <Route path="/login" element={<SignIn/>} />
       <Route
+        path="/profile"
+        element={
+          <MainLayout>
+            <Profile />
+          </MainLayout>
+        }
+      />
+      <Route
         path="/list-patient"
         element={
           <MainLayout>
             <ListPation />
+          </MainLayout>
+        }
+      />
+       <Route
+        path="/appointments"
+        element={
+          <MainLayout>
+            <Appoint />
           </MainLayout>
         }
       />
