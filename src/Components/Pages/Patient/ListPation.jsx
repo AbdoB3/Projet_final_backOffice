@@ -65,8 +65,15 @@ for (let i = 0; i < 44; i++) {
 
 const ListPation = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
+  const [selectedPatientId, setSelectedPatientId] = useState([]);
+  const [selectedPatientData, setSelectedPatientData] = useState([]);
+
+  const showModal = (doctorId, doctorData) => {
+      
+      setIsModalOpen(true);
+      setSelectedPatientId(doctorId); // Store the selected doctorId in state
+      setSelectedPatientData(doctorData); // Store the selected doctor data in state
+  
   };
   const handleOk = () => {
     setIsModalOpen(false);
@@ -112,7 +119,7 @@ const ListPation = () => {
           overlay={
             <Menu>
               <Menu.Item key="1">
-                <Button type="text" onClick={showModal} icon={<FontAwesomeIcon icon={faEdit} />}>Edit</Button>
+                <Button type="text" onClick={() => showModal(record._id, record)} icon={<FontAwesomeIcon icon={faEdit} />}>Edit</Button>
               </Menu.Item>
               <Menu.Item key="2">
                 <Button type="text" onClick={() => deleteHandler(record._id)}  icon={<FontAwesomeIcon icon={faTrashAlt} />}>Delete</Button>
@@ -192,7 +199,7 @@ const ListPation = () => {
         pagination={{ pageSize: 6 }}
         rowSelection={rowSelection} columns={columns} dataSource={patients} />
       <Modal title="Edit Patient" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-        <EditPatient />
+        <EditPatient  patientId={selectedPatientId} patientData={selectedPatientData}/>
       </Modal>
     </div>
   );

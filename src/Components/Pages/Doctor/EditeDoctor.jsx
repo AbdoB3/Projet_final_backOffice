@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { Form, Input, Button, Select, message,Upload, TimePicker } from 'antd';
 
 import { UploadOutlined } from '@ant-design/icons';
@@ -9,12 +9,16 @@ import axios from 'axios';
 
 const EditDoctor = ({doctorId,doctorData}) => {
   const [form] = Form.useForm();
-  console.log(doctorId)
-  console.log(doctorData)
+
+useEffect(()=>{
+  form.resetFields();
+}
+,[doctorData])
+
  const onFinish = async (values) => {
-  
     try {
       const response = await axios.put(`http://localhost:3000/doctors/${doctorId}`, values);
+      console.log("response",response.data);
       // Assuming the response contains the updated doctor object
       message.success('Doctor information updated successfully!');
       // You can update the doctor state in the parent component here
@@ -23,15 +27,11 @@ const EditDoctor = ({doctorId,doctorData}) => {
       message.error('Failed to update doctor information.');
     }
   };
+
+
   const formItemLayout = {
     labelCol: { span: 6 },
     wrapperCol: { span: 18 },
-  };
-
-  const uploadProps = {
-    name: 'image',
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76', // URL pour téléverser l'image
-    listType: 'picture',
   };
 
   return (
@@ -85,6 +85,9 @@ const EditDoctor = ({doctorId,doctorData}) => {
         <Form.Item wrapperCol={{ offset: 6, span: 18 }}>
           <Button type="primary" htmlType="submit" icon={<FontAwesomeIcon icon={faSave} />}>
             Save
+          </Button>
+          <Button type="primary" onClick={()=>{form.resetFields()}} icon={<FontAwesomeIcon icon={faSave} />}>
+            Cancel
           </Button>
         </Form.Item>
       </Form>

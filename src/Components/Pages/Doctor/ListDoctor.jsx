@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Table, Tag, Avatar, Typography, Flex, Dropdown, Menu, Modal,message } from 'antd';
+import { Button, Table, Tag, Avatar, Typography, Flex, Dropdown, Menu, Modal, message } from 'antd';
 import { faEllipsisVertical, faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { ExclamationCircleFilled } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import EditDoctor from './EditeDoctor';
 import axios from 'axios';
+import isLoggedIn from '../Auth/isLoggedIn';
+
 
 
 const { Title } = Typography;
@@ -29,7 +31,7 @@ const deleteHandler = (doctorId) => {
                                 resolve();
                             } else {
                                 reject();
-                                
+
                             }
                         })
                         .catch(error => {
@@ -45,25 +47,31 @@ const deleteHandler = (doctorId) => {
 };
 
 
+
 const ListDoctor = () => {
+    const token = localStorage.getItem('token');
+    console.log(token);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
     const [loading, setLoading] = useState(false);
     const [doctors, setDoctors] = useState([]);
     const [selectedDoctorId, setSelectedDoctorId] = useState([]);
     const [selectedDoctorData, setSelectedDoctorData] = useState([]);
-    
-    const showModal = (doctorId,doctorData) => {
+
+    const showModal = (doctorId, doctorData) => {
+
         setIsModalOpen(true);
         setSelectedDoctorId(doctorId); // Store the selected doctorId in state
-    setSelectedDoctorData(doctorData); // Store the selected doctor data in state
+        setSelectedDoctorData(doctorData); // Store the selected doctor data in state
+
     };
+
     const handleOk = () => {
         setIsModalOpen(false);
     };
+
     const handleCancel = () => {
         setIsModalOpen(false);
-        
     };
 
     const columns = [
@@ -111,14 +119,14 @@ const ListDoctor = () => {
         {
             title: 'Action',
             key: 'operation',
-            render: (text,record) => (
-                
+            render: (text, record) => (
+
 
                 <Dropdown
                     overlay={
                         <Menu>
                             <Menu.Item key="1">
-                                <Button type="text" onClick={()=>showModal(record._id,record)} icon={<FontAwesomeIcon icon={faEdit} />}>Edit</Button>
+                                <Button type="text" onClick={() => showModal(record._id, record)} icon={<FontAwesomeIcon icon={faEdit} />}>Edit</Button>
                             </Menu.Item>
                             <Menu.Item key="2">
                                 <Button type="text" onClick={() => deleteHandler(record._id)} icon={<FontAwesomeIcon icon={faTrashAlt} />}>Delete</Button>
@@ -133,8 +141,8 @@ const ListDoctor = () => {
         },
     ];
 
-    
-    
+
+
 
     useEffect(() => {
         fetchDoctors();
@@ -143,7 +151,11 @@ const ListDoctor = () => {
     const fetchDoctors = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('http://localhost:3000/doctors');
+            const response = await axios.get('http://localhost:3000/doctors', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             setDoctors(response.data);
             setLoading(false);
         } catch (error) {
@@ -170,8 +182,14 @@ const ListDoctor = () => {
         onChange: onSelectChange,
     };
     const hasSelected = selectedRowKeys.length > 0;
+console.log(isLoggedIn())
+
     return (
-        <div>
+        <>
+        {isLoggedIn()?(
+            <>
+            
+
             <div
                 style={{
                     marginBottom: 16,
@@ -197,7 +215,13 @@ const ListDoctor = () => {
             <Modal title="Edit Doctor" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                 <EditDoctor doctorId={selectedDoctorId} doctorData={selectedDoctorData} />
             </Modal>
-        </div>
+        </>
+        ):(
+            <p className="text-gray-600 m-40 text-center text-4xl">You should login </p>
+        )
+    }
+            
+        </>
     );
 };
 export default ListDoctor;
