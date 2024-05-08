@@ -27,8 +27,10 @@ const Header = () => {
   const [notificationVisible, setNotificationVisible] = useState(false);
   const [profileVisible, setProfileVisible] = useState(false);
   const [notifications, setNotifications] = useState([
-    { id: 1, message: 'Notification Amlkjhgfdsqdfghjklk fytftygffg ghgdtydr  cfgffrrj rtsdrythfghjjgh xrftfthfgh tydtyftgyug tuctyftyssrt ghcghktrtrtdj ydffjrtsfgjfkty tydycrydfdgjfgh gyu', read: false },
-    { id: 2, message: 'Notification 2', read: true },
+    { id: 1, message: 'Vous avez un rendez vous de Patient', read: false },
+    { id: 2, message: 'Incription Docteur ', read: false },
+    { id: 3, message: 'Vous avez un rendez vous de Docteur', read: false },
+
     // Add more notifications as needed
   ]);
 
@@ -82,7 +84,9 @@ const Header = () => {
         <Input placeholder="Rechercher..." prefix={<SearchOutlined />} className="w-48" />
       </div>
       <div className="flex items-center">
-        <Avatar className="bg-blue-950 mr-2" icon={<UserOutlined />} size={40} onClick={showProfile} />
+    
+        <Avatar className="bg-blue-950 mr-2" icon={<UserOutlined />} size={40}/>
+      
         <div className="text-white text-lg font-semibold mr-4 cursor-pointer" onClick={showProfile}>
           <div>Laila Danguir</div>
           <div className="text-sm">{role}</div>
@@ -130,7 +134,7 @@ const Header = () => {
             <AntdInput defaultValue={role} />
           </Form.Item>
           <Link to="/profile">
-          <Button  type="primary" icon={<FontAwesomeIcon icon={faEdit} />} className="mr-2">
+          <Button  onClick={hideProfile} type="primary" icon={<FontAwesomeIcon icon={faEdit} />} className="mr-2">
             Edit
           </Button>
           </Link>
