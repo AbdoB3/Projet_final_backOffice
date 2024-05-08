@@ -60,9 +60,10 @@ const SideBar = () => {
 
     return (
         <>
-            <Sider trigger={null} collapsible collapsed={collapsed}>
+            <Sider  trigger={null} collapsible collapsed={collapsed}>
                 <div className="demo-logo-vertical" />
                 <Menu
+                className='mt-5'
                     theme="dark"
                     mode="inline"
                     defaultSelectedKeys={['/']}

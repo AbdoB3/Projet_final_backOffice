@@ -1,5 +1,7 @@
 import React from 'react';
-import { Button, Form, Input, InputNumber } from 'antd';
+import { Button, Form, Input, InputNumber,message } from 'antd';
+import axios from 'axios';
+
 const layout = {
   labelCol: {
     span: 8,
@@ -16,16 +18,30 @@ const validateMessages = {
     email: '${label} is not a valid email!',
     number: '${label} is not a valid number!',
   },
-  number: {
-    range: '${label} must be between ${min} and ${max}',
-  },
 };
 /* eslint-enable no-template-curly-in-string */
 
-const onFinish = (values) => {
-  console.log(values);
-};
-const EditPatient = () => (
+
+
+const EditPatient = ({patientId,patientData}) => {
+
+  const onFinish = async (values) => {
+    try {
+      const response = await axios.put(`http://localhost:3000/patient/${patientId}`, values);
+      // Assuming the response contains the updated doctor object
+      message.success('Patient information updated successfully!');
+
+      // You can update the doctor state in the parent component here
+    } catch (error) {
+      console.error('Error updating patient:', error);
+      message.error('Failed to update patient information.');
+    }
+  };
+
+
+
+return(
+    
   <Form
     {...layout}
     name="nest-messages"
@@ -36,44 +52,38 @@ const EditPatient = () => (
     validateMessages={validateMessages}
   >
     <Form.Item
-      name={['user', 'name']}
-      label="Name"
-      rules={[
-        {
-          required: true,
-        },
-      ]}
+      name='firstName'
+      label="First Name"
+      initialValue={patientData.firstName}
     >
       <Input />
     </Form.Item>
     <Form.Item
-      name={['user', 'email']}
-      label="Email"
-      rules={[
-        {
-          type: 'email',
-        },
-      ]}
+      name='lastName'
+      label="Last Name"
+      initialValue={patientData.lastName} 
     >
       <Input />
     </Form.Item>
     <Form.Item
-      name={['user', 'age']}
-      label="Age"
-      rules={[
-        {
-          type: 'number',
-          min: 0,
-          max: 99,
-        },
-      ]}
+      name='phone'
+      label="Phone"
+      initialValue={patientData.phone}
+      
     >
       <InputNumber />
     </Form.Item>
-    <Form.Item name={['user', 'website']} label="Website">
+    <Form.Item name='email' label="Email"
+    initialValue={patientData.email}
+    rules={[
+      {
+        type: 'email',
+      },
+    ]}
+    >
       <Input />
     </Form.Item>
-    <Form.Item name={['user', 'introduction']} label="Introduction">
+    <Form.Item name='sexe' label="Sexe" initialValue={patientData.sexe}>
       <Input.TextArea />
     </Form.Item>
     <Form.Item
@@ -87,5 +97,6 @@ const EditPatient = () => (
       </Button>
     </Form.Item>
   </Form>
-);
+)
+};
 export default EditPatient;
