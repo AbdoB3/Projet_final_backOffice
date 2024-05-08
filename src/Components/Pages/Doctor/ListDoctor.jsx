@@ -5,7 +5,6 @@ import { ExclamationCircleFilled } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import EditDoctor from './EditeDoctor';
 import axios from 'axios';
-import isLoggedIn from '../Auth/isLoggedIn';
 
 
 
@@ -50,7 +49,7 @@ const deleteHandler = (doctorId) => {
 
 const ListDoctor = () => {
     const token = localStorage.getItem('token');
-    console.log(token);
+    
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -182,14 +181,10 @@ const ListDoctor = () => {
         onChange: onSelectChange,
     };
     const hasSelected = selectedRowKeys.length > 0;
-console.log(isLoggedIn())
+    
 
     return (
-        <>
-        {isLoggedIn()?(
-            <>
-            
-
+        <>  
             <div
                 style={{
                     marginBottom: 16,
@@ -215,11 +210,6 @@ console.log(isLoggedIn())
             <Modal title="Edit Doctor" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                 <EditDoctor doctorId={selectedDoctorId} doctorData={selectedDoctorData} />
             </Modal>
-        </>
-        ):(
-            <p className="text-gray-600 m-40 text-center text-4xl">You should login </p>
-        )
-    }
             
         </>
     );

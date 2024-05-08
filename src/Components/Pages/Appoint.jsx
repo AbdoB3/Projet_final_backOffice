@@ -6,6 +6,7 @@ import axios from 'axios';
 
 const MyTable = () => {
   const [appointments, setAppointments] = useState([]);
+  const token= localStorage.getItem('token');
 
 
 //....................Very Slow..................................
@@ -17,7 +18,11 @@ const MyTable = () => {
         // Fetch doctor names for each appointment
         const updatedAppointments = await Promise.all(appointmentData.map(async (appointment) => {
           try {
-            const docPatiResponse = await axios.get(`http://localhost:3000/patient/${appointment.doctor_id}/${appointment.patient_id}`);
+            const docPatiResponse = await axios.get(`http://localhost:3000/patient/${appointment.doctor_id}/${appointment.patient_id}`,{
+              headers: {
+                'Authorization': `Bearer ${token}`
+            }
+            });
             const doctorName = docPatiResponse.data.docName;
             const patientName = docPatiResponse.data.patName;
             return { ...appointment, doctorName, patientName };

@@ -64,6 +64,7 @@ for (let i = 0; i < 44; i++) {
 }*/
 
 const ListPation = () => {
+  const token = localStorage.getItem('token');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPatientId, setSelectedPatientId] = useState([]);
   const [selectedPatientData, setSelectedPatientData] = useState([]);
@@ -147,7 +148,11 @@ const ListPation = () => {
   const fetchPatients = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('http://localhost:3000/patient');
+      const response = await axios.get('http://localhost:3000/patient',{
+        headers: {
+          'Authorization': `Bearer ${token}`
+      }
+      });
       setPatients(response.data);
       console.log(response.data)
       setLoading(false);

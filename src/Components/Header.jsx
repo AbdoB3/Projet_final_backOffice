@@ -4,19 +4,25 @@ import { ToggleContext } from './store/ToggleContext';
 import { UserOutlined,LogoutOutlined , BellOutlined, SearchOutlined, SettingOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeartbeat, faEnvelopeOpen, faEnvelope, faEdit,faClose } from '@fortawesome/free-solid-svg-icons';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {Menu, Dropdown} from 'antd';
 
 
 
 
+
 const Header = () => {
+const navigate = useNavigate();
+  const Logout = ()=>{
+    localStorage.removeItem('token');
+    navigate('/login')
+  }
   const menu = (
     <Menu>
       <Menu.Item key="settings" icon={<SettingOutlined />}>
         Setting
       </Menu.Item>
-      <Menu.Item key="logout" icon={<LogoutOutlined />}>
+      <Menu.Item onClick={Logout} key="logout" icon={<LogoutOutlined />}>
         Logout
       </Menu.Item>
     </Menu>

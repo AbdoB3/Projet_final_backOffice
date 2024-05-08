@@ -1,12 +1,17 @@
-import React from 'react';
-import { Card, Table } from 'antd';
+import React,{useContext} from 'react';
+import { Card } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faUser, faWallet, faCalendarAlt, faUserMd,
-  faStethoscope, faTooth, faBrain, faHeartbeat, faEye
+    faUser, faWallet, faCalendarAlt, faUserMd,
+    faStethoscope, faTooth, faBrain, faHeartbeat, faEye
 } from '@fortawesome/free-solid-svg-icons';
+import Appoint from './Appoint';
+import { LoginContext } from '../store/LoginContext';
+
 
 function Dashboard() {
+    const { decodedToken } = useContext(LoginContext);
+    console.log(decodedToken)
     const departments = [
         { name: "General Physician", percentage: 35, icon: faStethoscope },
         { name: "Dentist", percentage: 24, icon: faTooth },
@@ -73,20 +78,20 @@ function Dashboard() {
             key: 'name',
             width: '10%',
             align: 'center',
-          },
-          {
+        },
+        {
             title: 'Doctor Name',
             dataIndex: 'Doctor',
             key: 'Doctor',
             width: '10%',
             align: 'center',
-          },
-          {
-          title: 'Patient Name',
-          dataIndex: 'Patient',
-          key: 'Patient',
-          width: '10%',
-          align: 'center',
+        },
+        {
+            title: 'Patient Name',
+            dataIndex: 'Patient',
+            key: 'Patient',
+            width: '10%',
+            align: 'center',
         },
         {
             title: 'Time',
@@ -94,14 +99,14 @@ function Dashboard() {
             key: 'Time',
             width: '10%',
             align: 'center',
-          },
+        },
         {
             title: 'Disease',
             dataIndex: 'Disease',
             key: 'Disease',
             width: '10%',
             align: 'center',
-          },
+        },
     ];
 
     return (
@@ -112,7 +117,7 @@ function Dashboard() {
                     <div className="flex flex-wrap justify-between items-center mb-2">
                         <div className="w-full md:w-1/2">
                             <div>
-                                <h1 className="mb-0 text-2xl font-bold">Welcome Laila Danguir 👋🏻.</h1>
+                                <h1 className="mb-0 text-2xl font-bold">Welcome {decodedToken.name} 👋🏻.</h1>
                                 <p className="mb-0">Have a nice day at work ❤️</p>
                             </div>
                         </div>
@@ -213,13 +218,18 @@ function Dashboard() {
                 </div>
 
                 {/* Table */}
-                <div className="w-full md:w-3/4 px-2 mt-10">
+
+                {/*<div className="w-full md:w-3/4 px-2 mt-10">
                     <Card className="bg-white shadow-lg">
                         <h3 className="text-xl font-semibold text-start">Appointement : </h3>
                         <div style={{ height: '340px', overflowY: 'auto' }}>
                             <Table dataSource={data} columns={columns} pagination={{ pageSize: '4' }} />
                         </div>
                     </Card>
+                        </div>*/}
+
+                <div className="w-full md:w-3/4 px-2 mt-10 shadow-lg bg-white ">
+                        <Appoint />
                 </div>
 
 
