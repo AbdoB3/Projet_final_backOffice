@@ -206,7 +206,7 @@ function Dashboard() {
                         {departments.map((dept, index) => (
                             <div key={index} className="flex justify-between items-center p-4">
                                 <div className="flex items-center">
-                                    <div className="w-9 h-9 flex items-center justify-center rounded-full bg-blue-500 text-white mr-3">
+                                    <div className="w-9 h-10 flex items-center justify-center rounded-full bg-blue-500 text-white mr-3">
                                         <FontAwesomeIcon icon={dept.icon} />
                                     </div>
                                     <span>{dept.name}</span>
@@ -228,8 +228,8 @@ function Dashboard() {
                     </Card>
                         </div>*/}
 
-                <div className="w-full md:w-3/4 px-2 mt-10 shadow-lg bg-white ">
-                        <Appoint />
+                <div className="w-full md:w-3/4 px-5 mt-10 mb-10 border rounded shadow-lg bg-white " style={{ height: '440px', overflowY: 'auto' }}>
+                        <Appoint/>
                 </div>
 
 

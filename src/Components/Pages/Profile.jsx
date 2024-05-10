@@ -4,8 +4,11 @@ import { UploadOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import { data } from 'autoprefixer';
+
 
 const ProfileForm = () => {
+  const token=localStorage.getItem('token');
     
   const [form] = Form.useForm();
 
@@ -18,17 +21,31 @@ const ProfileForm = () => {
     speciality:"",
     imageurl:""
 });
+
+
+
+// const profile=async()=>{
+//   const res=await axios.get("http://localhost:3000/doctors/profile", 
+//   {headers: {authorization : `Bearer ${token}`}}); 
+//   console.log("data Token",res.data)
+//   setFormm(res.data)
+//   return res.data;
+// } 
+// profile();
+
+
 useEffect(()=>{
-    axios.get("http://localhost:3000/doctors/${doctorId}").then((response)=>{
-       console.log(response.data);
-       setFormm({...formm,firstname: response.data})
+     axios.get("http://localhost:3000/doctors/profile", {headers: {authorization : `Bearer ${token}`}})
+     .then((response)=>{
+       console.log('data',response.data);
+       setFormm(response.data)
+       form.setFieldsValue(response.data);
     })
    
 },[])
-  
+
 useEffect(()=>{
-    
-    console.log(formm)
+   console.log(formm)
  },[formm])
  
    const onFinish = (values) => {
@@ -70,7 +87,7 @@ useEffect(()=>{
         className="justify-text"
       >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-4">
-          <Form.Item label="First Name" name="firstname" initialValue={formm.firstname} onChange={(e)=>setFormm({...formm,firstname:e.target.value})} rules={[{ required: false, message: 'Please input your first name!' }]}>
+          <Form.Item label="First Name" name="firstname" onChange={(e)=>setFormm({...formm,firstname:e.target.value})} rules={[{ required: false, message: 'Please input your first name!' }]}>
             <Input />
           </Form.Item>
           <Form.Item label="Last Name" name="lastname" rules={[{ required: false, message: 'Please input your last name!' }]}>
