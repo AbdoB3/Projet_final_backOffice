@@ -1,4 +1,4 @@
-import React,{useContext} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Card } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -7,11 +7,26 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Appoint from './Appoint';
 import { LoginContext } from '../store/LoginContext';
+import axios from 'axios';
+import { Specalities } from './Doctor/Specialities';
 
 
 function Dashboard() {
-    const { decodedToken } = useContext(LoginContext);
-    console.log(decodedToken)
+    const { decodedToken, token } = useContext(LoginContext);
+    const [sum, setSum] = useState({});
+    useEffect(() => {
+        fetchSum();
+    }, []);
+
+    const fetchSum = async () => {
+        const response = await axios.get('http://localhost:3000/patient/sum',
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+        setSum(response.data)
+    }
     const departments = [
         { name: "General Physician", percentage: 35, icon: faStethoscope },
         { name: "Dentist", percentage: 24, icon: faTooth },
@@ -147,7 +162,7 @@ function Dashboard() {
                         style={{ width: '80%' }} // Ajuster la largeur de la carte pour les petits écrans
                         className="transform transition-transform hover:scale-105 border-1 border-opacity-50 mx-auto shadow-lg"
                     >
-                        <p className="font-bold text-blue-900 text-4xl text-center">67</p>
+                        <p className="font-bold text-blue-900 text-4xl text-center">{sum.sumConsultation}</p>
                     </Card>
                 </div>
                 <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 mb-4 px-2">
@@ -163,10 +178,11 @@ function Dashboard() {
                         style={{ width: '80%' }} // Ajuster la largeur de la carte pour les petits écrans
                         className="transform transition-transform hover:scale-105 border-1 border-opacity-50 mx-auto shadow-lg"
                     >
-                        <p className="font-bold text-blue-900 text-4xl text-center">156</p>
+                        <p className="font-bold text-blue-900 text-4xl text-center">{sum.sumPatient}</p>
                     </Card>
                 </div>
                 <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 mb-4 px-2">
+
                     <Card
                         title={
                             <div className="flex flex-col items-center mt-4">
@@ -179,7 +195,7 @@ function Dashboard() {
                         style={{ width: '80%' }} // Ajuster la largeur de la carte pour les petits écrans
                         className="transform transition-transform hover:scale-105 border-1 border-opacity-50 mx-auto shadow-lg"
                     >
-                        <p className="font-bold text-blue-900 text-4xl text-center">77</p>
+                        <p className="font-bold text-blue-900 text-4xl text-center">{sum.sumDoctor}</p>
                     </Card>
                 </div>
                 <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 mb-4 px-2">
@@ -201,35 +217,12 @@ function Dashboard() {
 
                 {/* Cards speciality */}
                 <div className="w-full md:w-1/4 px-2 mt-10">
-                    <Card className="bg-white shadow-lg h-97">
-                        <h3 className="text-xl font-semibold text-center">Top Departments</h3>
-                        {departments.map((dept, index) => (
-                            <div key={index} className="flex justify-between items-center p-4">
-                                <div className="flex items-center">
-                                    <div className="w-9 h-9 flex items-center justify-center rounded-full bg-blue-500 text-white mr-3">
-                                        <FontAwesomeIcon icon={dept.icon} />
-                                    </div>
-                                    <span>{dept.name}</span>
-                                </div>
-                                <span>{`${dept.percentage}%`}</span>
-                            </div>
-                        ))}
-                    </Card>
+                    <Specalities />
                 </div>
 
                 {/* Table */}
-
-                {/*<div className="w-full md:w-3/4 px-2 mt-10">
-                    <Card className="bg-white shadow-lg">
-                        <h3 className="text-xl font-semibold text-start">Appointement : </h3>
-                        <div style={{ height: '340px', overflowY: 'auto' }}>
-                            <Table dataSource={data} columns={columns} pagination={{ pageSize: '4' }} />
-                        </div>
-                    </Card>
-                        </div>*/}
-
                 <div className="w-full md:w-3/4 px-2 mt-10 shadow-lg bg-white ">
-                        <Appoint />
+                    <Appoint />
                 </div>
 
 

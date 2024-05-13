@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import '../../../assets/style/login.css'
 import img from '../../../assets/images/logoconsolta.png'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { message } from 'antd';
+import { LoginContext } from '../../store/LoginContext';
+import { jwtDecode } from 'jwt-decode';
 
 
 const SignIn = () => {
+
+//const { decodedToken } = useContext(LoginContext);
+
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -34,9 +40,12 @@ const SignIn = () => {
 
       // Store token in local storage, redirect user
       localStorage.setItem('token', token);
+      const decodedToken = jwtDecode(token)
       console.log('Login successful. Token:', token);
+      message.success(`Welcome to the ${decodedToken.role} dashboard`)
       navigate('/');
     } catch (error) {
+      message.error('Invalid Mail or Password')
       console.error('Error logging in:', error);
     }
   };
