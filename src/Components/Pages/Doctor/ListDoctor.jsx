@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import EditDoctor from './EditeDoctor';
 import axios from 'axios';
 import DoctorStatusSwitch from './DoctorStatusSwitch';
-DoctorStatusSwitch
+
 
 
 const { Title } = Typography;

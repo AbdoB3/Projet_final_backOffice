@@ -10,10 +10,11 @@ import { LoginContext } from '../store/LoginContext';
 import axios from 'axios';
 import { Specalities } from './Doctor/Specialities';
 
-
+import { jwtDecode } from 'jwt-decode';
 function Dashboard() {
-    const { decodedToken, token } = useContext(LoginContext);
     const [sum, setSum] = useState({});
+    const token = localStorage.getItem('token')
+    const decodedToken = jwtDecode(token)
     useEffect(() => {
         fetchSum();
     }, []);

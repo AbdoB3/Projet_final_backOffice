@@ -7,14 +7,13 @@ import { faHeartbeat, faEnvelopeOpen, faEnvelope, faEdit,faClose } from '@fortaw
 import { Link, useNavigate } from "react-router-dom";
 import {Menu, Dropdown} from 'antd';
 import { LoginContext } from './store/LoginContext';
-
-
-
+import { jwtDecode } from 'jwt-decode';
 
 
 const Header = () => {
+  const token = localStorage.getItem('token')
+  const decodedToken = jwtDecode(token)
 const navigate = useNavigate();
-const { decodedToken } = useContext(LoginContext);
 
   const Logout = ()=>{
     localStorage.removeItem('token');
@@ -36,7 +35,7 @@ const { decodedToken } = useContext(LoginContext);
   const [notificationVisible, setNotificationVisible] = useState(false);
   const [profileVisible, setProfileVisible] = useState(false);
   const [notifications, setNotifications] = useState([
-    { id: 1, message: 'Notification Amlkjhgfdsqdfghjklk fytftygffg ghgdtydr  cfgffrrj rtsdrythfghjjgh xrftfthfgh tydtyftgyug tuctyftyssrt ghcghktrtrtdj ydffjrtsfgjfkty tydycrydfdgjfgh gyu', read: false },
+    { id: 1, message: 'Notification 3', read: false },
     { id: 2, message: 'Notification 2', read: true },
     // Add more notifications as needed
   ]);
