@@ -12,7 +12,7 @@ import { jwtDecode } from 'jwt-decode';
 
 const Header = () => {
   const token = localStorage.getItem('token')
-  const decodedToken = jwtDecode(token)
+  const decodedToken = token? jwtDecode(token):"null"
 const navigate = useNavigate();
 
   const Logout = ()=>{

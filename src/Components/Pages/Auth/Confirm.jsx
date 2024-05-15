@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 
 const EmailConfirmation = () => {
-  const [count, setCount] = useState(5);
+  const [count, setCount] = useState(3);
   const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {

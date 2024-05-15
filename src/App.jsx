@@ -59,7 +59,7 @@ function App() {
   const { decodedToken } = useContext(LoginContext);
   const navigate = useNavigate();
   const isDoc = ()=>{
-    return decodedToken.role==="doctor"
+    return decodedToken.role==="Doctor"
   }
 
   return (

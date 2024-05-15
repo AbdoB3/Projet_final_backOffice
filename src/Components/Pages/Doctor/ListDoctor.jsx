@@ -1,52 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Table, Tag, Avatar, Typography, Flex, Dropdown, Menu, Modal, message, Switch } from 'antd';
+import { Button,Flex, Table, Tag, Avatar, Typography, Dropdown, Menu, Modal, message } from 'antd';
 import { faEllipsisVertical, faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
-import { ExclamationCircleFilled, CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { ExclamationCircleFilled } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import EditDoctor from './EditeDoctor';
 import axios from 'axios';
 import DoctorStatusSwitch from './DoctorStatusSwitch';
 
-
-
 const { Title } = Typography;
 const { confirm } = Modal;
 
-
-const deleteHandler = (doctorId) => {
+const deleteHandler = (doctorId, fetchDoctors) => {
     confirm({
         title: 'Do you want to delete this doctor?',
         icon: <ExclamationCircleFilled />,
         content: 'Click ok to delete it',
         onOk() {
             return new Promise((resolve, reject) => {
-                // Simulate a delay before resolving or rejecting the Promise
-                setTimeout(() => {
-                    // Make an HTTP DELETE request to delete the doctor
-                    axios.delete(`http://localhost:3000/doctors/${doctorId}`)
-                        .then(response => {
-                            if (response.status === 200) {
-                                message.success('Doctor information deleted successfully!');
-                                //add notif 
-                                resolve();
-                            } else {
-                                reject();
-
-                            }
-                        })
-                        .catch(error => {
-                            message.error('Failed to delete doctor.');
-                            console.error('Error deleting doctor:', error);
+                axios.delete(`http://localhost:3000/doctors/${doctorId}`)
+                    .then(response => {
+                        if (response.status === 200) {
+                            message.success('Doctor information deleted successfully!');
+                            fetchDoctors(); // Refresh the list after deletion
+                            resolve();
+                        } else {
                             reject();
-                        });
-                }, 1000); // Adjust the delay time as needed
+                        }
+                    })
+                    .catch(error => {
+                        message.error('Failed to delete doctor.');
+                        console.error('Error deleting doctor:', error);
+                        reject();
+                    });
             }).catch(() => console.log('Oops errors!'));
         },
         onCancel() { },
     });
 };
-
-
 
 const ListDoctor = () => {
     const token = localStorage.getItem('token');
@@ -55,15 +45,13 @@ const ListDoctor = () => {
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
     const [loading, setLoading] = useState(false);
     const [doctors, setDoctors] = useState([]);
-    const [selectedDoctorId, setSelectedDoctorId] = useState([]);
-    const [selectedDoctorData, setSelectedDoctorData] = useState([]);
+    const [selectedDoctorId, setSelectedDoctorId] = useState(null);
+    const [selectedDoctorData, setSelectedDoctorData] = useState(null);
 
     const showModal = (doctorId, doctorData) => {
-
         setIsModalOpen(true);
-        setSelectedDoctorId(doctorId); // Store the selected doctorId in state
-        setSelectedDoctorData(doctorData); // Store the selected doctor data in state
-
+        setSelectedDoctorId(doctorId);
+        setSelectedDoctorData(doctorData);
     };
 
     const handleOk = () => {
@@ -73,6 +61,54 @@ const ListDoctor = () => {
     const handleCancel = () => {
         setIsModalOpen(false);
     };
+
+    const fetchDoctors = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get('http://localhost:3000/doctors', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            setDoctors(response.data);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching Doctors:', error);
+            setLoading(false);
+        }
+    };
+
+    const handleStatusChange = (id, newStatus) => {
+        setDoctors((prevDoctors) =>
+            prevDoctors.map((doctor) =>
+                doctor._id === id ? { ...doctor, state: newStatus } : doctor
+            )
+        );
+    };
+
+    useEffect(() => {
+        fetchDoctors();
+    }, []);
+
+    const start = () => {
+        setLoading(true);
+        setTimeout(() => {
+            setSelectedRowKeys([]);
+            setLoading(false);
+        }, 1000);
+    };
+
+    const onSelectChange = (newSelectedRowKeys) => {
+        console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+        setSelectedRowKeys(newSelectedRowKeys);
+    };
+
+    const rowSelection = {
+        selectedRowKeys,
+        onChange: onSelectChange,
+    };
+
+    const hasSelected = selectedRowKeys.length > 0;
 
     const columns = [
         {
@@ -120,8 +156,6 @@ const ListDoctor = () => {
             title: 'Action',
             key: 'operation',
             render: (text, record) => (
-
-
                 <Dropdown
                     overlay={
                         <Menu>
@@ -129,7 +163,7 @@ const ListDoctor = () => {
                                 <Button type="text" onClick={() => showModal(record._id, record)} icon={<FontAwesomeIcon icon={faEdit} />}>Edit</Button>
                             </Menu.Item>
                             <Menu.Item key="2">
-                                <Button type="text" onClick={() => deleteHandler(record._id)} icon={<FontAwesomeIcon icon={faTrashAlt} />}>Delete</Button>
+                                <Button type="text" onClick={() => deleteHandler(record._id, fetchDoctors)} icon={<FontAwesomeIcon icon={faTrashAlt} />}>Delete</Button>
                             </Menu.Item>
                         </Menu>
                     }
@@ -138,59 +172,14 @@ const ListDoctor = () => {
                 </Dropdown>
             ),
         },
-
         {
             title: 'Active',
             key: 'active',
             render: (text, record) => (
-
-
-                <DoctorStatusSwitch id={record._id} /> // Render DoctorStatusSwitch component
+                <DoctorStatusSwitch id={record._id} onStatusChange={handleStatusChange} /> // Pass handleStatusChange as prop
             ),
         },
-
     ];
-
-
-    useEffect(() => {
-        fetchDoctors();
-    }, []);
-
-    const fetchDoctors = async () => {
-        setLoading(true);
-        try {
-            const response = await axios.get('http://localhost:3000/doctors', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            setDoctors(response.data);
-            setLoading(false);
-        } catch (error) {
-            console.error('Error fetching Doctors:', error);
-            setLoading(false);
-        }
-    };
-
-    const start = () => {
-        setLoading(true);
-        // ajax request after empty completing
-        setTimeout(() => {
-            setSelectedRowKeys([]);
-            setLoading(false);
-        }, 1000);
-    };
-
-    const onSelectChange = (newSelectedRowKeys) => {
-        console.log('selectedRowKeys changed: ', newSelectedRowKeys);
-        setSelectedRowKeys(newSelectedRowKeys);
-    };
-    const rowSelection = {
-        selectedRowKeys,
-        onChange: onSelectChange,
-    };
-    const hasSelected = selectedRowKeys.length > 0;
-
 
     return (
         <>
@@ -215,12 +204,15 @@ const ListDoctor = () => {
             </div>
             <Table
                 pagination={{ pageSize: 6 }}
-                rowSelection={rowSelection} columns={columns} dataSource={doctors} />
-            <Modal title="Edit Doctor" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                rowSelection={rowSelection}
+                columns={columns}
+                dataSource={doctors}
+            />
+            <Modal title="Edit Doctor" visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                 <EditDoctor doctorId={selectedDoctorId} doctorData={selectedDoctorData} />
             </Modal>
-
         </>
     );
 };
+
 export default ListDoctor;

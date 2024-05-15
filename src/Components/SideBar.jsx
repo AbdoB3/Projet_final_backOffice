@@ -48,7 +48,7 @@ const SideBar = () => {
             key: '/calendar',
             icon: <FontAwesomeIcon icon={faCalendar} />,
             label: 'Calendar',
-            role: 'doctor',
+            role: 'Doctor',
         },
         {
             key: '/appointments',
