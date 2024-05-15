@@ -31,7 +31,7 @@ const MyCalendar = () => {
 
     return (
         <div className="w-full mx-auto mt-1 max-w-screen">
-            <h2 className="text-lg font-bold mb-4 text-center">Calendar</h2>
+            <h2 className="text-xl font-bold mb-4 text-start">Calendar</h2>
             <div className="border border-gray-300 rounded-lg p-4 shadow-md h-full">
                 <Calendar 
                     className="w-full h-full" 

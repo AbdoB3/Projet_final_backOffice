@@ -36,57 +36,6 @@ function Dashboard() {
         { name: "Ophthalmology", percentage: 20, icon: faEye }
     ];
 
-    const data = [
-        {
-            key: '1',
-            name: 'John Brown',
-            age: 32,
-            address: 'New York No. 1 Lake Park',
-        },
-        {
-            key: '2',
-            name: 'Jim Green',
-            age: 42,
-            address: 'London No. 1 Lake Park',
-        },
-        {
-            key: '3',
-            name: 'Joe Black',
-            age: 32,
-            address: 'Sidney No. 1 Lake Park',
-        },
-        {
-            key: '4',
-            name: 'Jim Red',
-            age: 32,
-            address: 'London No. 2 Lake Park',
-        },
-        {
-            key: '5',
-            name: 'Jim Green',
-            age: 42,
-            address: 'London No. 1 Lake Park',
-        },
-        {
-            key: '6',
-            name: 'Jim Green',
-            age: 42,
-            address: 'London No. 1 Lake Park',
-        },
-        {
-            key: '7',
-            name: 'Abderramane',
-            age: 42,
-            address: 'London No. 1 Lake Park',
-        },
-        {
-            key: '8',
-            name: 'Laila Danguir',
-            age: 42,
-            address: 'London No. 1 Lake Park',
-        }
-    ];
-
     const columns = [
         {
             title: 'Appointement ID',
@@ -217,15 +166,40 @@ function Dashboard() {
                 </div>
 
                 {/* Cards speciality */}
-                <div className="w-full md:w-1/4 px-2 mt-10">
-                    <Specalities />
+                <div className="w-full md:w-1/4 px-1 mt-10">
+                    <Card className="bg-white shadow-lg h-97">
+                        <h3 className="text-xl mtb-3 font-semibold text-center">Top Departments</h3>
+                        {departments.map((dept, index) => (
+                            <div key={index} className="flex justify-between items-center p-4">
+                                <div className="flex items-center">
+                                    <div className="w-9 h-10 flex items-center justify-center rounded-full bg-blue-500 text-white mr-3">
+                                        <FontAwesomeIcon icon={dept.icon} />
+                                    </div>
+                                    <span>{dept.name}</span>
+                                </div>
+                                <span>{`${dept.percentage}%`}</span>
+                            </div>
+                        ))}
+                    </Card>
                 </div>
 
                 {/* Table */}
-                <div className="w-full md:w-3/4 px-2 mt-10 shadow-lg bg-white ">
-                    <Appoint />
-                </div>
 
+                {/*<div className="w-full md:w-3/4 px-2 mt-10">
+                    <Card className="bg-white shadow-lg">
+                        <h3 className="text-xl font-semibold text-start">Appointement : </h3>
+                        <div style={{ height: '340px', overflowY: 'auto' }}>
+                            <Table dataSource={data} columns={columns} pagination={{ pageSize: '4' }} />
+                        </div>
+                    </Card>
+                        </div>*/}
+    
+
+                <div className="w-full md:w-3/4 px-5 mt-10 mb-10 border rounded shadow-lg bg-white " style={{ height: '440px', overflowY: 'auto'}}>
+                      <div className="p-6"> 
+                        <Appoint/>
+                    </div>
+                </div>
 
             </div>
         </>

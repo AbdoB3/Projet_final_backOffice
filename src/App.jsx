@@ -6,10 +6,14 @@ import Header from "./Components/Header";
 import ListPation from "./Components/Pages/Patient/ListPation";
 import ListDoctor from "./Components/Pages/Doctor/ListDoctor";
 import SignIn from "./Components/Pages/Auth/SignIn"
+import Forget from "./Components/Pages/Auth/Forget"
+import Confirm from "./Components/Pages/Auth/Confirm"
 import Dashboard from "./Components/Pages/Home";
 import Calendar from './Components/Pages/Calendar';
 import Appoint from './Components/Pages/Appoint';
 import Profile from './Components/Pages/Profile';
+import Speciality from './Components/Pages/Speciality';
+
 import { LoginContext } from "./Components/store/LoginContext";
 
 
@@ -54,8 +58,8 @@ const MainLayout = ({ children }) => {
 function App() {
   const { decodedToken } = useContext(LoginContext);
   const navigate = useNavigate();
-  const isDoc = () => {
-    return decodedToken.role === "Doctor"
+  const isDoc = ()=>{
+    return decodedToken.role==="Doctor"
   }
 
   return (
@@ -70,6 +74,10 @@ function App() {
         }
       />
       <Route path="/login" element={<SignIn />} />
+      <Route path="/ForgotPassword" element={<Forget />} />
+      <Route path="/confirm" element={<Confirm />} />
+
+
       <Route
         path="/profile"
         element={
@@ -104,17 +112,15 @@ function App() {
           }
         />
       )}
-
-      {!isDoc() && (
-        <Route
-          path="/list-doctor"
-          element={
-            <MainLayout>
-              <ListDoctor />
-            </MainLayout>
-          }
-        />
-      )}
+      
+      <Route
+        path="/list-doctor"
+        element={
+          <MainLayout>
+            <ListDoctor />
+          </MainLayout>
+        }
+      />
     </Routes>
   );
 }
