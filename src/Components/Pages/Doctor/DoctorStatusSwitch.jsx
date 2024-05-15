@@ -7,7 +7,7 @@ const DoctorStatusSwitch = ({ id }) => {
     const token = localStorage.getItem('token');
     const [status, setStatus] = useState(false); // Default status set to false
 
-    useEffect(() => {
+        useEffect(() => {
         // Fetch doctor's status when component mounts
         fetchDoctorStatus();
     },[]);
@@ -30,7 +30,6 @@ const DoctorStatusSwitch = ({ id }) => {
         try {
             // Update status in UI optimistically
             setStatus(checked);
-
             // Make PATCH request to update status
             await axios.patch(`http://localhost:3000/doctors/${id}`, 
                 { state: checked ? 'active' : 'pending' }, // Adjusted state values

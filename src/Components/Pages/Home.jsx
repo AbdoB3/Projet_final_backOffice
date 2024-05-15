@@ -14,7 +14,7 @@ import { jwtDecode } from 'jwt-decode';
 function Dashboard() {
     const [sum, setSum] = useState({});
     const token = localStorage.getItem('token')
-    const decodedToken = jwtDecode(token)
+    const decodedToken = token? jwtDecode(token):""
     useEffect(() => {
         fetchSum();
     }, []);

@@ -1,4 +1,4 @@
-import React,{useEffect,useContext} from "react";
+import React, { useEffect, useContext } from "react";
 import SideBar from "./Components/SideBar";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { Layout, theme } from "antd";
@@ -11,12 +11,12 @@ import Calendar from './Components/Pages/Calendar';
 import Appoint from './Components/Pages/Appoint';
 import Profile from './Components/Pages/Profile';
 import { LoginContext } from "./Components/store/LoginContext";
-    
+
 
 
 const MainLayout = ({ children }) => {
-  const { isLoggedIn,decodedToken } = useContext(LoginContext);
- 
+  const { isLoggedIn, decodedToken } = useContext(LoginContext);
+
   const navigate = useNavigate();
   const { Content } = Layout;
   const {
@@ -27,9 +27,9 @@ const MainLayout = ({ children }) => {
     if (!isLoggedIn()) {
       navigate("/login");
     }
-  }, []); 
+  }, []);
 
-  
+
   return (
     <Layout>
       <Header />
@@ -54,8 +54,8 @@ const MainLayout = ({ children }) => {
 function App() {
   const { decodedToken } = useContext(LoginContext);
   const navigate = useNavigate();
-  const isDoc = ()=>{
-    return decodedToken.role==="doctor"
+  const isDoc = () => {
+    return decodedToken.role === "Doctor"
   }
 
   return (
@@ -104,15 +104,17 @@ function App() {
           }
         />
       )}
-      
-      <Route
-        path="/list-doctor"
-        element={
-          <MainLayout>
-            <ListDoctor />
-          </MainLayout>
-        }
-      />
+
+      {!isDoc() && (
+        <Route
+          path="/list-doctor"
+          element={
+            <MainLayout>
+              <ListDoctor />
+            </MainLayout>
+          }
+        />
+      )}
     </Routes>
   );
 }

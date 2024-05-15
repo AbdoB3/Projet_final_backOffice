@@ -145,7 +145,7 @@ const ListDoctor = () => {
             render: (text, record) => (
 
 
-                <DoctorStatusSwitch id={record._id} /> // Render DoctorStatusSwitch component
+                <DoctorStatusSwitch id={record._id}  /> // Render DoctorStatusSwitch component
             ),
         },
 

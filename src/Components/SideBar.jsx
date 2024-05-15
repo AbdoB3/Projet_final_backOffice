@@ -42,13 +42,14 @@ const SideBar = () => {
                     label: 'List Doctor',
                     icon: <FontAwesomeIcon icon={faList} />,
                 }
-            ]
+            ],
+            role: 'Admin',
         },
         {
             key: '/calendar',
             icon: <FontAwesomeIcon icon={faCalendar} />,
             label: 'Calendar',
-            role: 'doctor',
+            role: 'Doctor',
         },
         {
             key: '/appointments',
