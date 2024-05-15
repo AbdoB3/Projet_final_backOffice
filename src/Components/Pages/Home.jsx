@@ -1,4 +1,4 @@
-import React,{useContext} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Card } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -7,11 +7,27 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Appoint from './Appoint';
 import { LoginContext } from '../store/LoginContext';
+import axios from 'axios';
+import { Specalities } from './Doctor/Specialities';
 
-
+import { jwtDecode } from 'jwt-decode';
 function Dashboard() {
-    const { decodedToken } = useContext(LoginContext);
-    console.log(decodedToken)
+    const [sum, setSum] = useState({});
+    const token = localStorage.getItem('token')
+    const decodedToken = jwtDecode(token)
+    useEffect(() => {
+        fetchSum();
+    }, []);
+
+    const fetchSum = async () => {
+        const response = await axios.get('http://localhost:3000/patient/sum',
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+        setSum(response.data)
+    }
     const departments = [
         { name: "General Physician", percentage: 35, icon: faStethoscope },
         { name: "Dentist", percentage: 24, icon: faTooth },
@@ -147,7 +163,7 @@ function Dashboard() {
                         style={{ width: '80%' }} // Ajuster la largeur de la carte pour les petits écrans
                         className="transform transition-transform hover:scale-105 border-1 border-opacity-50 mx-auto shadow-lg"
                     >
-                        <p className="font-bold text-blue-900 text-4xl text-center">67</p>
+                        <p className="font-bold text-blue-900 text-4xl text-center">{sum.sumConsultation}</p>
                     </Card>
                 </div>
                 <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 mb-4 px-2">
@@ -163,10 +179,11 @@ function Dashboard() {
                         style={{ width: '80%' }} // Ajuster la largeur de la carte pour les petits écrans
                         className="transform transition-transform hover:scale-105 border-1 border-opacity-50 mx-auto shadow-lg"
                     >
-                        <p className="font-bold text-blue-900 text-4xl text-center">156</p>
+                        <p className="font-bold text-blue-900 text-4xl text-center">{sum.sumPatient}</p>
                     </Card>
                 </div>
                 <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 mb-4 px-2">
+
                     <Card
                         title={
                             <div className="flex flex-col items-center mt-4">
@@ -179,7 +196,7 @@ function Dashboard() {
                         style={{ width: '80%' }} // Ajuster la largeur de la carte pour les petits écrans
                         className="transform transition-transform hover:scale-105 border-1 border-opacity-50 mx-auto shadow-lg"
                     >
-                        <p className="font-bold text-blue-900 text-4xl text-center">77</p>
+                        <p className="font-bold text-blue-900 text-4xl text-center">{sum.sumDoctor}</p>
                     </Card>
                 </div>
                 <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 mb-4 px-2">

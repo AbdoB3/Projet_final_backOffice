@@ -15,12 +15,12 @@ import Profile from './Components/Pages/Profile';
 import Speciality from './Components/Pages/Speciality';
 
 import { LoginContext } from "./Components/store/LoginContext";
-
-
+    
 
 
 const MainLayout = ({ children }) => {
-  const { isLoggedIn } = useContext(LoginContext);
+  const { isLoggedIn,decodedToken } = useContext(LoginContext);
+ 
   const navigate = useNavigate();
   const { Content } = Layout;
   const {
@@ -33,6 +33,7 @@ const MainLayout = ({ children }) => {
     }
   }, []); 
 
+  
   return (
     <Layout>
       <Header />
@@ -55,7 +56,11 @@ const MainLayout = ({ children }) => {
 };
 
 function App() {
-
+  const { decodedToken } = useContext(LoginContext);
+  const navigate = useNavigate();
+  const isDoc = ()=>{
+    return decodedToken.role==="doctor"
+  }
 
   return (
 
@@ -97,14 +102,17 @@ function App() {
           </MainLayout>
         }
       />
-      <Route
-        path="/calendar"
-        element={
-          <MainLayout>
-            <Calendar />
-          </MainLayout>
-        }
-      />
+      {isDoc() && (
+        <Route
+          path="/calendar"
+          element={
+            <MainLayout>
+              <Calendar />
+            </MainLayout>
+          }
+        />
+      )}
+      
       <Route
         path="/list-doctor"
         element={

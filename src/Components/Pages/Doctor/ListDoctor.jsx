@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Table, Tag, Avatar, Typography, Flex, Dropdown, Menu, Modal, message } from 'antd';
+import { Button, Table, Tag, Avatar, Typography, Flex, Dropdown, Menu, Modal, message, Switch } from 'antd';
 import { faEllipsisVertical, faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
-import { ExclamationCircleFilled } from '@ant-design/icons';
+import { ExclamationCircleFilled, CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import EditDoctor from './EditeDoctor';
 import axios from 'axios';
+import DoctorStatusSwitch from './DoctorStatusSwitch';
 
 
 
@@ -49,7 +50,7 @@ const deleteHandler = (doctorId) => {
 
 const ListDoctor = () => {
     const token = localStorage.getItem('token');
-    
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -104,8 +105,8 @@ const ListDoctor = () => {
                 if (!state) {
                     return "null"; // or you can return a default tag or message
                 }
-                let color = state.length > 5 ? 'geekblue' : 'green';
-                if (state === 'loser') {
+                let color = state.length > 6 ? 'geekblue' : 'green';
+                if (state === 'blocked') {
                     color = 'volcano';
                 }
                 return (
@@ -130,7 +131,6 @@ const ListDoctor = () => {
                             <Menu.Item key="2">
                                 <Button type="text" onClick={() => deleteHandler(record._id)} icon={<FontAwesomeIcon icon={faTrashAlt} />}>Delete</Button>
                             </Menu.Item>
-
                         </Menu>
                     }
                 >
@@ -138,9 +138,18 @@ const ListDoctor = () => {
                 </Dropdown>
             ),
         },
+
+        {
+            title: 'Active',
+            key: 'active',
+            render: (text, record) => (
+
+
+                <DoctorStatusSwitch id={record._id} /> // Render DoctorStatusSwitch component
+            ),
+        },
+
     ];
-
-
 
 
     useEffect(() => {
@@ -181,10 +190,10 @@ const ListDoctor = () => {
         onChange: onSelectChange,
     };
     const hasSelected = selectedRowKeys.length > 0;
-    
+
 
     return (
-        <>  
+        <>
             <div
                 style={{
                     marginBottom: 16,
@@ -210,7 +219,7 @@ const ListDoctor = () => {
             <Modal title="Edit Doctor" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                 <EditDoctor doctorId={selectedDoctorId} doctorData={selectedDoctorData} />
             </Modal>
-            
+
         </>
     );
 };

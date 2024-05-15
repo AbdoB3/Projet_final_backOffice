@@ -5,14 +5,16 @@ import { faCalendarCheck,faTools , faCalendar, faHome, faUser, faUserMd, faList,
 import { Layout, Menu } from 'antd';
 
 import { ToggleContext } from './store/ToggleContext';
-
+import { LoginContext } from './store/LoginContext';
 
 const { Sider } = Layout;
+const { SubMenu } = Menu;
+
 const SideBar = () => {
     const { collapsed } = useContext(ToggleContext);
+    const { decodedToken } = useContext(LoginContext);
 
     const items = [
-
         {
             key: '/',
             icon: <FontAwesomeIcon icon={faHome} />,
@@ -23,7 +25,6 @@ const SideBar = () => {
             icon: <FontAwesomeIcon icon={faUser} />,
             label: 'Patients',
             children: [
-
                 {
                     key: '/list-patient',
                     label: 'List Patients',
@@ -43,11 +44,11 @@ const SideBar = () => {
                 }
             ]
         },
-
         {
             key: '/calendar',
             icon: <FontAwesomeIcon icon={faCalendar} />,
             label: 'Calendar',
+            role: 'doctor',
         },
         {
             key: '/appointments',
@@ -63,24 +64,40 @@ const SideBar = () => {
 
     const navigate = useNavigate();
 
+    const filteredItems = items.filter(item => {
+        if (item.role) {
+            return decodedToken.role === item.role;
+        }
+        return true;
+    });
+
     return (
         <>
-            <Sider  trigger={null} collapsible collapsed={collapsed}>
+            <Sider trigger={null} collapsible collapsed={collapsed}>
                 <div className="demo-logo-vertical" />
                 <Menu
-                className='mt-5'
+                    className='mt-5'
                     theme="dark"
                     mode="inline"
                     defaultSelectedKeys={['/']}
-                    items={items}
-                    onClick={
-                        ({ key }) => {
-                            if (key) {
-                                navigate(key);
-                            }
+                    onClick={({ key }) => {
+                        if (key) {
+                            navigate(key);
                         }
-                    }
-                />
+                    }}
+                >
+                    {filteredItems.map(item => (
+                        item.children ? (
+                            <SubMenu key={item.key} icon={item.icon} title={item.label}>
+                                {item.children.map(child => (
+                                    <Menu.Item key={child.key} icon={child.icon}>{child.label}</Menu.Item>
+                                ))}
+                            </SubMenu>
+                        ) : (
+                            <Menu.Item key={item.key} icon={item.icon}>{item.label}</Menu.Item>
+                        )
+                    ))}
+                </Menu>
             </Sider>
         </>
     );

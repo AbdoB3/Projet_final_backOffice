@@ -4,6 +4,9 @@ import { Link,useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeartbeat,faLock,faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { message } from 'antd';
+import { jwtDecode } from 'jwt-decode';
+
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -24,9 +27,12 @@ const SignIn = () => {
       const response = await axios.post('http://localhost:3000/admin/login', { email, password });
       const token = response.data;
       localStorage.setItem('token', token);
+      const decodedToken = jwtDecode(token)
       console.log('Login successful. Token:', token);
+      message.success(`Welcome to the ${decodedToken.role} dashboard`)
       navigate('/');
     } catch (error) {
+      message.error('Invalid Mail or Password')
       console.error('Error logging in:', error);
     }
   };

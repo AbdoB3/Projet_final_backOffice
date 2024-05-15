@@ -6,13 +6,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeartbeat, faEnvelopeOpen, faEnvelope, faEdit,faClose } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from "react-router-dom";
 import {Menu, Dropdown} from 'antd';
-
-
-
+import { LoginContext } from './store/LoginContext';
+import { jwtDecode } from 'jwt-decode';
 
 
 const Header = () => {
+  const token = localStorage.getItem('token')
+  const decodedToken = jwtDecode(token)
 const navigate = useNavigate();
+
   const Logout = ()=>{
     localStorage.removeItem('token');
     navigate('/login')
@@ -27,7 +29,7 @@ const navigate = useNavigate();
       </Menu.Item>
     </Menu>
   );
-  const role = "Administrateur";
+  const role = decodedToken.role;
   const { Header } = Layout;
   const { collapsed, onClickHandler } = useContext(ToggleContext);
   const [notificationVisible, setNotificationVisible] = useState(false);
@@ -94,7 +96,7 @@ const navigate = useNavigate();
         <Avatar className="bg-blue-950 mr-2" icon={<UserOutlined />} size={40}/>
       
         <div className="text-white text-lg font-semibold mr-4 cursor-pointer" onClick={showProfile}>
-          <div>Laila Danguir</div>
+          <div>{decodedToken.name}</div>
           <div className="text-sm">{role}</div>
         </div>
         <Badge count={notifications.filter(notification => !notification.read).length}>
@@ -134,7 +136,7 @@ const navigate = useNavigate();
       >
         <Form layout="vertical">
           <Form.Item label="Nom">
-            <AntdInput defaultValue="Laila Danguir" />
+            <AntdInput defaultValue={decodedToken.name} />
           </Form.Item>
           <Form.Item label="Rôle">
             <AntdInput defaultValue={role} />
