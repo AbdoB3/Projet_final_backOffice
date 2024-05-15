@@ -89,7 +89,7 @@ const MyTable = () => {
         bordered
         size="middle"
         pagination={{ pageSize: 9 }}
-        style={{ backgroundColor: '#f7f7f7' }}
+        style={{ backgroundColor: 'white' }}
       />
     </>
   );

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarCheck, faCalendar, faHome, faUser, faUserMd, faList, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarCheck,faTools , faCalendar, faHome, faUser, faUserMd, faList, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Layout, Menu } from 'antd';
 
 import { ToggleContext } from './store/ToggleContext';
@@ -53,6 +53,11 @@ const SideBar = () => {
             key: '/appointments',
             icon: <FontAwesomeIcon icon={faCalendarCheck} />,
             label: 'Appointments',
+        },
+        {
+            key: '/speciality',
+            icon: <FontAwesomeIcon icon={faTools } />,
+            label: 'Speciality',
         },
     ];
 
