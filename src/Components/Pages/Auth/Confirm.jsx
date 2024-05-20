@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { Link } from "react-router-dom";
+
 
 const EmailConfirmation = () => {
   const [count, setCount] = useState(3);
@@ -32,9 +34,11 @@ const EmailConfirmation = () => {
             <p className="text-gray-700 mt-2 text-center">
               Please check your email address <span className="text-gray-900 font-bold"></span> for instructions to reset your password.
             </p>
+            <Link to="/login">
             <button className="mt-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
               Resend email
             </button>
+            </Link>
           </div>
         </div>
       )}

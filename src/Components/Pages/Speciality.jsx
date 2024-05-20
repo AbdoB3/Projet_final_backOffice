@@ -144,7 +144,7 @@ const SpecialityDashboard = () => {
         pagination={{ pageSize: 4 }}
     />
     <Card className="p-7 w-full lg:w-2/5 border-2 rounded shadow-lg"> {/* Ajusté pour les grands écrans */}
-        <h2 className="text-2xl font-bold mb-3">Add New Speciality</h2>
+        <h2 className="text-center text-2xl font-bold mb-9">Add New Speciality</h2>
         <Form
             form={addForm}
             onFinish={handleAddNew}

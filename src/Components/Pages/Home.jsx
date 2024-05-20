@@ -92,6 +92,7 @@ function Dashboard() {
                         <p className="font-bold text-blue-900 text-4xl text-center">{sum.sumPatient}</p>
                     </Card>
                 </div>
+
                 {decodedToken.role == "Admin"?(<div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 mb-4 px-2">
                 <Card
                     title={
@@ -125,6 +126,8 @@ function Dashboard() {
                         <p className="font-bold text-blue-900 text-4xl text-center"> $ 87</p>
                     </Card>
                 </div>
+</div>
+<div className="flex flex-wrap justify-center items-start">
 
                 
 

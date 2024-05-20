@@ -78,8 +78,8 @@ const MyCalendar = () => {
                     </div>
                 </div>
             </div>
-                <Calendar
-                    className="w-full h-full"
+                <Calendar 
+                    className="w-full h-full" 
                     style={{ maxWidth: '100%' }}
                     dateCellRender={dateCellRender}
                     fullscreen={true}

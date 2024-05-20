@@ -66,16 +66,25 @@ const ListPation = () => {
     setIsModalOpen(false);
   };
 
+
+  const generateRandomColor = () => {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r},${g},${b})`;
+  };
+
   const columns = [
     {
       title: 'Name',
       dataIndex: 'name',
       render: (text, record) => (
         <span>
-          <Avatar src={'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg'} />
-          {' '}
-          {`${record.firstName} ${record.lastName}`}
+        <span style={{ backgroundColor: generateRandomColor(), color: 'white', marginRight: '10px',fontSize: '19px', fontWeight: 'bold', borderRadius: '50%', width: '35px', height: '35px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+          {record.firstName.charAt(0)}{record.lastName.charAt(0)}
         </span>
+        {`${record.firstName} ${record.lastName}`}
+      </span>
       ),
     },
     {
