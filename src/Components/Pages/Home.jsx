@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Card } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -7,55 +7,32 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Appoint from './Appoint';
 import axios from 'axios';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
+
 
 function Dashboard() {
     const [sum, setSum] = useState({});
-    const token = localStorage.getItem('token');
-    const decodedToken = token ? jwtDecode(token) : null;
-
+    const token = localStorage.getItem('token')
+    const decodedToken = token? jwtDecode(token):""
     useEffect(() => {
         fetchSum();
     }, []);
 
     const fetchSum = async () => {
-        const response = await axios.get('http://localhost:3000/patient/sum', {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
-        setSum(response.data);
-    };
-
+        const response = await axios.get('http://localhost:3000/patient/sum',
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+        setSum(response.data)
+    }
     const departments = [
         { name: "General Physician", percentage: 35, icon: faStethoscope },
         { name: "Dentist", percentage: 24, icon: faTooth },
         { name: "ENT", percentage: 10, icon: faBrain },
         { name: "Cardiologist", percentage: 15, icon: faHeartbeat },
         { name: "Ophthalmology", percentage: 20, icon: faEye }
-    ];
-
-    const cards = [
-        {
-            title: "Appointments",
-            value: sum.sumConsultation,
-            icon: faCalendarAlt
-        },
-        {
-            title: "New Doctors",
-            value: sum.sumDoctor,
-            icon: faUserMd
-        },
-        {
-            title: "New Patients",
-            value: sum.sumPatient,
-            icon: faUser
-        },
-        {
-            title: "Earnings",
-            value: `$ ${sum.sumEarnings || 87}`,
-            icon: faWallet
-        }
     ];
 
     return (
@@ -66,7 +43,7 @@ function Dashboard() {
                     <div className="flex flex-wrap justify-between items-center mb-2">
                         <div className="w-full md:w-1/2">
                             <div>
-                                <h1 className="mb-0 text-2xl font-bold">Welcome {decodedToken ? decodedToken.name : "Guest"} 👋🏻.</h1>
+                                <h1 className="mb-0 text-2xl font-bold">Welcome {decodedToken.name} 👋🏻.</h1>
                                 <p className="mb-0">Have a nice day at work ❤️</p>
                             </div>
                         </div>
@@ -81,28 +58,80 @@ function Dashboard() {
                 </div>
             </div>
 
-            <div className="grid gap-4 mt-10" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))' }}>
-                {cards.map((card, index) => (
+            <div className="flex flex-wrap justify-center items-start mt-10">
+                {/*  cards */}
+                <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 mb-4 px-2">
                     <Card
-                        key={index}
                         title={
                             <div className="flex flex-col items-center mt-4">
                                 <div className="w-12 h-12 flex items-center justify-center rounded bg-blue-500">
-                                    <FontAwesomeIcon icon={card.icon} className="text-white" />
+                                    <FontAwesomeIcon icon={faCalendarAlt} className="text-white" />
                                 </div>
-                                <span className="mt-2">{card.title}</span>
+                                <span className="mt-2">Appointments</span>
                             </div>
                         }
-                        className="transform transition-transform hover:scale-105 border-2 border-opacity-50 mx-auto shadow-lg"
-                        style={{ minWidth: '270px', minHeight: '150px' }}
+                        style={{ width: '80%' }} // Ajuster la largeur de la carte pour les petits écrans
+                        className="transform transition-transform hover:scale-105 border-1 border-opacity-50 mx-auto shadow-lg"
                     >
-                        <p className="font-bold text-blue-900 text-4xl text-center">{card.value}</p>
+                        <p className="font-bold text-blue-900 text-4xl text-center">{sum.sumConsultation}</p>
                     </Card>
-                ))}
-            </div>
+                </div>
+                <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 mb-4 px-2">
+                    <Card
+                        title={
+                            <div className="flex flex-col items-center mt-4">
+                                <div className="w-12 h-12 flex items-center justify-center rounded bg-blue-500">
+                                    <FontAwesomeIcon icon={faUser} className="text-white" />
+                                </div>
+                                <span className="mt-2">New Patients</span>
+                            </div>
+                        }
+                        style={{ width: '80%' }} // Ajuster la largeur de la carte pour les petits écrans
+                        className="transform transition-transform hover:scale-105 border-1 border-opacity-50 mx-auto shadow-lg"
+                    >
+                        <p className="font-bold text-blue-900 text-4xl text-center">{sum.sumPatient}</p>
+                    </Card>
+                </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-10">
-                <div>
+                {decodedToken.role == "Admin"?(<div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 mb-4 px-2">
+                
+                <Card
+                    title={
+                        <div className="flex flex-col items-center mt-4">
+                            <div className="w-12 h-12 flex items-center justify-center rounded bg-blue-500">
+                                <FontAwesomeIcon icon={faUserMd} className="text-white" />
+                            </div>
+                            <span className="mt-2">New Doctors</span>
+                        </div>
+                    }
+                    style={{ width: '80%' }} // Ajuster la largeur de la carte pour les petits écrans
+                    className="transform transition-transform hover:scale-105 border-1 border-opacity-50 mx-auto shadow-lg"
+                >
+                    <p className="font-bold text-blue-900 text-4xl text-center">{sum.sumDoctor}</p>
+                </Card>
+            </div>):""}
+                
+                <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 mb-4 px-2">
+                    <Card
+                        title={
+                            <div className="flex flex-col items-center mt-4">
+                                <div className="w-12 h-12 flex items-center justify-center rounded bg-blue-500">
+                                    <FontAwesomeIcon icon={faWallet} className="text-white" />
+                                </div>
+                                <span className="mt-2">Earnings</span>
+                            </div>
+                        }
+                        style={{ width: '80%' }} // Ajuster la largeur de la carte pour les petits écrans
+                        className="transform transition-transform hover:scale-105 border-1 border-opacity-50 mx-auto shadow-lg"
+                    >
+                        <p className="font-bold text-blue-900 text-4xl text-center"> $ 87</p>
+                    </Card>
+                </div>
+</div>
+<div className="flex flex-wrap justify-center items-start">
+
+                {/* Cards speciality */}
+                <div className="w-full md:w-1/4 px-1 mt-10">
                     <Card className="bg-white shadow-lg h-97">
                         <h3 className="text-xl mtb-3 font-semibold text-center">Top Departments</h3>
                         {departments.map((dept, index) => (
@@ -118,13 +147,13 @@ function Dashboard() {
                         ))}
                     </Card>
                 </div>
-                <div className="col-span-2">
-                    <div className="w-full px-5 mb-10 border rounded shadow-lg bg-white" style={{ height: '440px', overflowY: 'auto' }}>
-                        <div className="p-6">
-                            <Appoint />
-                        </div>
+
+                <div className="w-full md:w-3/4 px-5 mt-10 mb-10 border rounded shadow-lg bg-white " style={{ height: '440px', overflowY: 'auto'}}>
+                      <div className="p-6"> 
+                        <Appoint/>
                     </div>
                 </div>
+
             </div>
         </>
     );

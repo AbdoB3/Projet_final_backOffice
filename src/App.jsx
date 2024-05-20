@@ -1,6 +1,6 @@
-import React,{useEffect,useContext} from "react";
+import React, { useEffect, useContext } from "react";
 import SideBar from "./Components/SideBar";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route , useNavigate} from "react-router-dom";
 import { Layout, theme } from "antd";
 import Header from "./Components/Header";
 import ListPation from "./Components/Pages/Patient/ListPation";
@@ -16,25 +16,25 @@ import Speciality from './Components/Pages/Speciality';
 
 
 import { LoginContext } from "./Components/store/LoginContext";
-    
+
 
 
 const MainLayout = ({ children }) => {
-  const { isLoggedIn,decodedToken } = useContext(LoginContext);
- 
-  const navigate = useNavigate();
+  const { isLoggedIn } = useContext(LoginContext);  
   const { Content } = Layout;
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
+
+  const navigate = useNavigate()
   useEffect(() => {
     if (!isLoggedIn()) {
       navigate("/login");
     }
-  }, []); 
+  }, []);
 
-  
+
   return (
     <Layout>
       <Header />
@@ -58,7 +58,6 @@ const MainLayout = ({ children }) => {
 
 function App() {
   const { decodedToken } = useContext(LoginContext);
-  const navigate = useNavigate();
   const isDoc = ()=>{
     return decodedToken.role==="Doctor"
   }
@@ -87,6 +86,16 @@ function App() {
           </MainLayout>
         }
       />
+      {!isDoc()&&(
+        <Route
+        path="/speciality"
+        element={
+          <MainLayout>
+            <Speciality />
+          </MainLayout>
+        }
+      />
+      )}
       <Route
         path="/list-patient"
         element={
@@ -119,14 +128,6 @@ function App() {
         element={
           <MainLayout>
             <ListDoctor />
-          </MainLayout>
-        }
-      />
-      <Route
-        path="/speciality"
-        element={
-          <MainLayout>
-            <Speciality/>
           </MainLayout>
         }
       />

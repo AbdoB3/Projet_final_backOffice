@@ -42,7 +42,8 @@ const SideBar = () => {
                     label: 'List Doctor',
                     icon: <FontAwesomeIcon icon={faList} />,
                 }
-            ]
+            ],
+            role: 'Admin',
         },
         {
             key: '/calendar',
@@ -59,6 +60,7 @@ const SideBar = () => {
             key: '/speciality',
             icon: <FontAwesomeIcon icon={faTools } />,
             label: 'Speciality',
+            role:"Admin",
         },
     ];
 

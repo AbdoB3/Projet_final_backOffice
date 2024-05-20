@@ -8,7 +8,7 @@ const DoctorStatusSwitch = ({ id, onStatusChange }) => {
     const [status, setStatus] = useState(false); // Default status set to false
     const [statusText, setStatusText] = useState('pending'); // Default text set to pending
 
-    useEffect(() => {
+        useEffect(() => {
         // Fetch doctor's status when component mounts
         fetchDoctorStatus();
     }, []);
