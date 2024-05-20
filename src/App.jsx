@@ -13,7 +13,6 @@ import Calendar from './Components/Pages/Calendar';
 import Appoint from './Components/Pages/Appoint';
 import Profile from './Components/Pages/Profile';
 import Speciality from './Components/Pages/Speciality';
-import Login from './Components/LoginD/Login';
 
 
 import { LoginContext } from "./Components/store/LoginContext";
