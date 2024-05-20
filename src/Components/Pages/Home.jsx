@@ -35,44 +35,6 @@ function Dashboard() {
         { name: "Ophthalmology", percentage: 20, icon: faEye }
     ];
 
-    const columns = [
-        {
-            title: 'Appointement ID',
-            dataIndex: 'name',
-            key: 'name',
-            width: '10%',
-            align: 'center',
-        },
-        {
-            title: 'Doctor Name',
-            dataIndex: 'Doctor',
-            key: 'Doctor',
-            width: '10%',
-            align: 'center',
-        },
-        {
-            title: 'Patient Name',
-            dataIndex: 'Patient',
-            key: 'Patient',
-            width: '10%',
-            align: 'center',
-        },
-        {
-            title: 'Time',
-            dataIndex: 'Time',
-            key: 'Time',
-            width: '10%',
-            align: 'center',
-        },
-        {
-            title: 'Disease',
-            dataIndex: 'Disease',
-            key: 'Disease',
-            width: '10%',
-            align: 'center',
-        },
-    ];
-
     return (
         <>
             <div className="max-w-screen-lg mx-auto p-4 rounded-lg shadow-lg">
@@ -131,7 +93,6 @@ function Dashboard() {
                     </Card>
                 </div>
                 {decodedToken.role == "Admin"?(<div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 mb-4 px-2">
-                
                 <Card
                     title={
                         <div className="flex flex-col items-center mt-4">
@@ -165,8 +126,13 @@ function Dashboard() {
                     </Card>
                 </div>
 
-                {/* Cards speciality */}
-                <div className="w-full md:w-1/4 px-1 mt-10">
+                
+
+            </div>
+
+<div className="flex flex-wrap justify-center items-start ">
+            {/* Cards speciality */}
+            <div className="w-full md:w-1/4 px-1 mt-10">
                     <Card className="bg-white shadow-lg h-97">
                         <h3 className="text-xl mtb-3 font-semibold text-center">Top Departments</h3>
                         {departments.map((dept, index) => (
@@ -183,24 +149,11 @@ function Dashboard() {
                     </Card>
                 </div>
 
-                {/* Table */}
-
-                {/*<div className="w-full md:w-3/4 px-2 mt-10">
-                    <Card className="bg-white shadow-lg">
-                        <h3 className="text-xl font-semibold text-start">Appointement : </h3>
-                        <div style={{ height: '340px', overflowY: 'auto' }}>
-                            <Table dataSource={data} columns={columns} pagination={{ pageSize: '4' }} />
-                        </div>
-                    </Card>
-                        </div>*/}
-    
-
                 <div className="w-full md:w-3/4 px-5 mt-10 mb-10 border rounded shadow-lg bg-white " style={{ height: '440px', overflowY: 'auto'}}>
                       <div className="p-6"> 
                         <Appoint/>
                     </div>
                 </div>
-
             </div>
         </>
     );
