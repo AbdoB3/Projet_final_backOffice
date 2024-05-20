@@ -1,24 +1,24 @@
 import React, { useContext, useState } from 'react';
 import { Layout, Input, Avatar, Badge, Button, Modal, List, Form, Input as AntdInput } from 'antd';
 import { ToggleContext } from './store/ToggleContext';
-import { UserOutlined,LogoutOutlined , BellOutlined, SearchOutlined, SettingOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import { UserOutlined, LogoutOutlined, BellOutlined, SearchOutlined, SettingOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeartbeat, faEnvelopeOpen, faEnvelope, faEdit,faClose } from '@fortawesome/free-solid-svg-icons';
+import { faHeartbeat, faEnvelopeOpen, faEnvelope, faEdit, faClose } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from "react-router-dom";
-import {Menu, Dropdown} from 'antd';
+import { Menu, Dropdown } from 'antd';
 import { LoginContext } from './store/LoginContext';
 import { jwtDecode } from 'jwt-decode';
 
-
 const Header = () => {
-  const token = localStorage.getItem('token')
-  const decodedToken = token? jwtDecode(token):"null"
-const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+  const decodedToken = token ? jwtDecode(token) : null;
+  const navigate = useNavigate();
 
-  const Logout = ()=>{
+  const Logout = () => {
     localStorage.removeItem('token');
-    navigate('/login')
+    navigate('/login');
   }
+
   const menu = (
     <Menu>
       <Menu.Item key="settings" icon={<SettingOutlined />}>
@@ -29,17 +29,16 @@ const navigate = useNavigate();
       </Menu.Item>
     </Menu>
   );
-  const role = decodedToken.role;
+
+  const role = decodedToken?.role;
   const { Header } = Layout;
   const { collapsed, onClickHandler } = useContext(ToggleContext);
   const [notificationVisible, setNotificationVisible] = useState(false);
   const [profileVisible, setProfileVisible] = useState(false);
   const [notifications, setNotifications] = useState([
-    { id: 1, message: 'Vous avez un rendez vous de Patient', read: false },
-    { id: 2, message: 'Incription Docteur ', read: false },
-    { id: 3, message: 'Vous avez un rendez vous de Docteur', read: false },
-
-    // Add more notifications as needed
+    { id: 1, message: 'Vous avez un rendez-vous de Patient', read: false },
+    { id: 2, message: 'Inscription Docteur', read: false },
+    { id: 3, message: 'Vous avez un rendez-vous de Docteur', read: false },
   ]);
 
   const showNotification = () => {
@@ -68,6 +67,12 @@ const navigate = useNavigate();
     setNotifications(updatedNotifications);
   };
 
+  const getInitials = (name) => {
+    const names = name.split(' ');
+    const initials = names.map(n => n[0]).join('');
+    return initials.toUpperCase();
+  };
+
   return (
     <Header className="header flex items-center justify-between" style={{ maxHeight: '100%', padding: '0 25px' }}>
       <Button
@@ -82,7 +87,7 @@ const navigate = useNavigate();
           border: 'none',
           cursor: 'pointer',
           outline: 'none',
-        }}a
+        }}
       />
       <div className="logo flex items-center">
         <FontAwesomeIcon icon={faHeartbeat} className="text-white text-2xl mr-2" beat />
@@ -92,18 +97,16 @@ const navigate = useNavigate();
         <Input placeholder="Rechercher..." prefix={<SearchOutlined />} className="w-48" />
       </div>
       <div className="flex items-center">
-    
-        <Avatar className="bg-blue-950 mr-2" icon={<UserOutlined />} size={40}/>
-      
+        <Avatar className="bg-blue-950 mr-2" size={40}>
+          {decodedToken ? getInitials(decodedToken.name) : <UserOutlined />}
+        </Avatar>
         <div className="text-white text-lg font-semibold mr-4 cursor-pointer" onClick={showProfile}>
-          <div>{decodedToken.name}</div>
+          <div>{decodedToken?.name}</div>
           <div className="text-sm">{role}</div>
         </div>
         <Badge count={notifications.filter(notification => !notification.read).length}>
           <BellOutlined className="text-white text-2xl mr-2" onClick={showNotification} />
         </Badge>
-  
-
         <Dropdown overlay={menu}>
           <SettingOutlined className="text-white text-2xl ml-6" />
         </Dropdown>
@@ -136,17 +139,17 @@ const navigate = useNavigate();
       >
         <Form layout="vertical">
           <Form.Item label="Nom">
-            <AntdInput defaultValue={decodedToken.name} />
+            <AntdInput defaultValue={decodedToken?.name} />
           </Form.Item>
           <Form.Item label="Rôle">
             <AntdInput defaultValue={role} />
           </Form.Item>
           <Link to="/profile">
-          <Button  onClick={hideProfile} type="primary" icon={<FontAwesomeIcon icon={faEdit} />} className="mr-2">
-            Edit
-          </Button>
+            <Button onClick={hideProfile} type="primary" icon={<FontAwesomeIcon icon={faEdit} />} className="mr-2">
+              Edit
+            </Button>
           </Link>
-          <Button onClick={hideProfile} icon={<FontAwesomeIcon icon={faClose} />} >
+          <Button onClick={hideProfile} icon={<FontAwesomeIcon icon={faClose} />}>
             Close
           </Button>
         </Form>

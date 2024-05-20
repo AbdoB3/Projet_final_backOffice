@@ -109,17 +109,23 @@ const ListDoctor = () => {
     };
 
     const hasSelected = selectedRowKeys.length > 0;
-
+    const generateRandomColor = () => {
+        const r = Math.floor(Math.random() * 256);
+        const g = Math.floor(Math.random() * 256);
+        const b = Math.floor(Math.random() * 256);
+        return `rgb(${r},${g},${b})`;
+      };
     const columns = [
         {
             title: 'Name',
             dataIndex: 'name',
             render: (text, record) => (
                 <span>
-                    <Avatar src={'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg'} />
-                    {' '}
-                    {`${record.firstname} ${record.lastname}`}
+                <span style={{ backgroundColor: generateRandomColor(), color: 'white', marginRight: '10px',fontSize: '19px', fontWeight: 'bold', borderRadius: '50%', width: '35px', height: '35px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {record.firstname.charAt(0)}{record.lastname.charAt(0)}
                 </span>
+                {`${record.firstname} ${record.lastname}`}
+              </span>
             ),
         },
         {

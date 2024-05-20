@@ -33,6 +33,22 @@ const MyCalendar = () => {
         <div className="w-full mx-auto mt-1 max-w-screen">
             <h2 className="text-xl font-bold mb-4 text-start">Calendar</h2>
             <div className="border border-gray-300 rounded-lg p-4 shadow-md h-full">
+            <div className="mb-4">
+                <div className="flex space-x-4">
+                    <div className="flex items-center">
+                        <div className="w-4 h-4" style={{ backgroundColor: '#FF0000' }}></div>
+                        <span className="ml-2">Rendez-Vous Proche</span>
+                    </div>
+                    <div className="flex items-center">
+                        <div className="w-4 h-4" style={{ backgroundColor: 'green' }}></div>
+                        <span className="ml-2">En Attente</span>
+                    </div>
+                    <div className="flex items-center">
+                        <div className="w-4 h-4" style={{ backgroundColor: 'blue' }}></div>
+                        <span className="ml-2">Déjà Passé</span>
+                    </div>
+                </div>
+            </div>
                 <Calendar 
                     className="w-full h-full" 
                     style={{ maxWidth: '100%' }}
