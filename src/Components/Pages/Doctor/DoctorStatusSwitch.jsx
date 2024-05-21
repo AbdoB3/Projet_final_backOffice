@@ -3,7 +3,7 @@ import { Switch, message } from 'antd';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
-const DoctorStatusSwitch = ({ id, onStatusChange }) => {
+const DoctorStatusSwitch = ({ id, onStatusChange,pagination }) => {
     const token = localStorage.getItem('token');
     const [status, setStatus] = useState(false); // Default status set to false
     const [statusText, setStatusText] = useState('pending'); // Default text set to pending
@@ -11,7 +11,7 @@ const DoctorStatusSwitch = ({ id, onStatusChange }) => {
         useEffect(() => {
         // Fetch doctor's status when component mounts
         fetchDoctorStatus();
-    }, []);
+    }, [pagination]);
 
     const fetchDoctorStatus = async () => {
         try {
@@ -20,7 +20,7 @@ const DoctorStatusSwitch = ({ id, onStatusChange }) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            const currentState = response.data.state === 'active';
+            const currentState = response.data.state == 'active';
             // Set initial status and active state based on response
             setStatus(currentState);
             setStatusText(currentState ? 'active' : 'pending');

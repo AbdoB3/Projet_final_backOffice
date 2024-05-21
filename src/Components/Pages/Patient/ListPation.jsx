@@ -131,40 +131,39 @@ const ListPation = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [loading, setLoading] = useState(false);
   const [patients, setPatients] = useState([]);
+  //const [patientsIds, setPatientsIds] = useState([]);
 
 
   useEffect(() => {
+    const fetchPatients = async () => {
+      setLoading(true);
+      try {
+        let response;
+    
+        if (decodedToken.role === "Admin") {
+          response = await axios.get('http://localhost:3000/patient', {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+        } else {
+          response = await axios.get(`http://localhost:3000/consultation/patients/${decodedToken.userId}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+        }
+        setPatients(response.data)
+      } catch (error) {
+        console.error('Error fetching patients:', error);
+      } finally {
+        setLoading(false);
+      }
+    }; 
     fetchPatients();
   }, []);
 
-  const fetchPatients = async () => {
-    setLoading(true);
-    try {
-      let response;
-  
-      if (decodedToken.role === "Admin") {
-        response = await axios.get('http://localhost:3000/patient', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-      } else {
-        response = await axios.get(`http://localhost:3000/consultation/patients/${decodedToken.userId}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        console.log("test",response.data)
-      }
-  
-      setPatients(response.data);
-      console.log("dd",patients)
-    } catch (error) {
-      console.error('Error fetching patients:', error);
-    } finally {
-      setLoading(false);
-    }
-  };  
+ 
 
   const start = () => {
     setLoading(true);
