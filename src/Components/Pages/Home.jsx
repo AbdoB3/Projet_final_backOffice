@@ -6,11 +6,10 @@ import {
     faStethoscope, faTooth, faBrain, faHeartbeat, faEye
 } from '@fortawesome/free-solid-svg-icons';
 import Appoint from './Appoint';
-import { LoginContext } from '../store/LoginContext';
 import axios from 'axios';
-import { Specalities } from './Doctor/Specialities';
-
 import { jwtDecode } from 'jwt-decode';
+
+
 function Dashboard() {
     const [sum, setSum] = useState({});
     const token = localStorage.getItem('token')
@@ -34,44 +33,6 @@ function Dashboard() {
         { name: "ENT", percentage: 10, icon: faBrain },
         { name: "Cardiologist", percentage: 15, icon: faHeartbeat },
         { name: "Ophthalmology", percentage: 20, icon: faEye }
-    ];
-
-    const columns = [
-        {
-            title: 'Appointement ID',
-            dataIndex: 'name',
-            key: 'name',
-            width: '10%',
-            align: 'center',
-        },
-        {
-            title: 'Doctor Name',
-            dataIndex: 'Doctor',
-            key: 'Doctor',
-            width: '10%',
-            align: 'center',
-        },
-        {
-            title: 'Patient Name',
-            dataIndex: 'Patient',
-            key: 'Patient',
-            width: '10%',
-            align: 'center',
-        },
-        {
-            title: 'Time',
-            dataIndex: 'Time',
-            key: 'Time',
-            width: '10%',
-            align: 'center',
-        },
-        {
-            title: 'Disease',
-            dataIndex: 'Disease',
-            key: 'Disease',
-            width: '10%',
-            align: 'center',
-        },
     ];
 
     return (
@@ -131,23 +92,24 @@ function Dashboard() {
                         <p className="font-bold text-blue-900 text-4xl text-center">{sum.sumPatient}</p>
                     </Card>
                 </div>
-                <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 mb-4 px-2">
 
-                    <Card
-                        title={
-                            <div className="flex flex-col items-center mt-4">
-                                <div className="w-12 h-12 flex items-center justify-center rounded bg-blue-500">
-                                    <FontAwesomeIcon icon={faUserMd} className="text-white" />
-                                </div>
-                                <span className="mt-2">New Doctors</span>
+                {decodedToken.role == "Admin"?(<div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 mb-4 px-2">
+                <Card
+                    title={
+                        <div className="flex flex-col items-center mt-4">
+                            <div className="w-12 h-12 flex items-center justify-center rounded bg-blue-500">
+                                <FontAwesomeIcon icon={faUserMd} className="text-white" />
                             </div>
-                        }
-                        style={{ width: '80%' }} // Ajuster la largeur de la carte pour les petits écrans
-                        className="transform transition-transform hover:scale-105 border-1 border-opacity-50 mx-auto shadow-lg"
-                    >
-                        <p className="font-bold text-blue-900 text-4xl text-center">{sum.sumDoctor}</p>
-                    </Card>
-                </div>
+                            <span className="mt-2">New Doctors</span>
+                        </div>
+                    }
+                    style={{ width: '80%' }} // Ajuster la largeur de la carte pour les petits écrans
+                    className="transform transition-transform hover:scale-105 border-1 border-opacity-50 mx-auto shadow-lg"
+                >
+                    <p className="font-bold text-blue-900 text-4xl text-center">{sum.sumDoctor}</p>
+                </Card>
+            </div>):""}
+                
                 <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 mb-4 px-2">
                     <Card
                         title={
@@ -164,9 +126,16 @@ function Dashboard() {
                         <p className="font-bold text-blue-900 text-4xl text-center"> $ 87</p>
                     </Card>
                 </div>
+</div>
+<div className="flex flex-wrap justify-center items-start">
 
-                {/* Cards speciality */}
-                <div className="w-full md:w-1/4 px-1 mt-10">
+                
+
+            </div>
+
+<div className="flex flex-wrap justify-center items-start ">
+            {/* Cards speciality */}
+            <div className="w-full md:w-1/4 px-1 mt-10">
                     <Card className="bg-white shadow-lg h-97">
                         <h3 className="text-xl mtb-3 font-semibold text-center">Top Departments</h3>
                         {departments.map((dept, index) => (
@@ -183,24 +152,11 @@ function Dashboard() {
                     </Card>
                 </div>
 
-                {/* Table */}
-
-                {/*<div className="w-full md:w-3/4 px-2 mt-10">
-                    <Card className="bg-white shadow-lg">
-                        <h3 className="text-xl font-semibold text-start">Appointement : </h3>
-                        <div style={{ height: '340px', overflowY: 'auto' }}>
-                            <Table dataSource={data} columns={columns} pagination={{ pageSize: '4' }} />
-                        </div>
-                    </Card>
-                        </div>*/}
-    
-
                 <div className="w-full md:w-3/4 px-5 mt-10 mb-10 border rounded shadow-lg bg-white " style={{ height: '440px', overflowY: 'auto'}}>
                       <div className="p-6"> 
                         <Appoint/>
                     </div>
                 </div>
-
             </div>
         </>
     );

@@ -60,6 +60,7 @@ const SideBar = () => {
             key: '/speciality',
             icon: <FontAwesomeIcon icon={faTools } />,
             label: 'Speciality',
+            role:"Admin",
         },
     ];
 

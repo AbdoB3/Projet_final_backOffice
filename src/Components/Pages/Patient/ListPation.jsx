@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import EditPatient from './EditPatient';
 import { ExclamationCircleFilled } from '@ant-design/icons';
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 
 
 const { Title } = Typography;
@@ -44,27 +45,9 @@ const deleteHandler = (doctorId) => {
 };
 
 
-/*const data = [];
-for (let i = 0; i < 44; i++) {
-  data.push({
-    key: i,
-    name: (
-      <>
-        <Avatar src={'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg'} />
-        {' '}
-        Edward King
-        {' '}
-        {i}
-      </>
-    ),
-    age: 32,
-    email: `Edward.King${i}@gmail.com`,
-    phone: `06${i + i}4567890`
-  });
-}*/
-
 const ListPation = () => {
   const token = localStorage.getItem('token');
+  const decodedToken = token ? jwtDecode(token): "";
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPatientId, setSelectedPatientId] = useState([]);
   const [selectedPatientData, setSelectedPatientData] = useState([]);
@@ -83,16 +66,25 @@ const ListPation = () => {
     setIsModalOpen(false);
   };
 
+
+  const generateRandomColor = () => {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r},${g},${b})`;
+  };
+
   const columns = [
     {
       title: 'Name',
       dataIndex: 'name',
       render: (text, record) => (
         <span>
-          <Avatar src={'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg'} />
-          {' '}
-          {`${record.firstName} ${record.lastName}`}
+        <span style={{ backgroundColor: generateRandomColor(), color: 'white', marginRight: '10px',fontSize: '19px', fontWeight: 'bold', borderRadius: '50%', width: '35px', height: '35px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+          {record.firstName.charAt(0)}{record.lastName.charAt(0)}
         </span>
+        {`${record.firstName} ${record.lastName}`}
+      </span>
       ),
     },
     {
@@ -148,19 +140,31 @@ const ListPation = () => {
   const fetchPatients = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('http://localhost:3000/patient',{
-        headers: {
-          'Authorization': `Bearer ${token}`
+      let response;
+  
+      if (decodedToken.role === "Admin") {
+        response = await axios.get('http://localhost:3000/patient', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+      } else {
+        response = await axios.get(`http://localhost:3000/consultation/patients/${decodedToken.userId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        console.log("test",response.data)
       }
-      });
+  
       setPatients(response.data);
-      console.log(response.data)
-      setLoading(false);
+      console.log("dd",patients)
     } catch (error) {
       console.error('Error fetching patients:', error);
+    } finally {
       setLoading(false);
     }
-  };
+  };  
 
   const start = () => {
     setLoading(true);
