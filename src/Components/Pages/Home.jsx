@@ -94,7 +94,6 @@ function Dashboard() {
                 </div>
 
                 {decodedToken.role == "Admin"?(<div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 mb-4 px-2">
-                
                 <Card
                     title={
                         <div className="flex flex-col items-center mt-4">
@@ -130,8 +129,13 @@ function Dashboard() {
 </div>
 <div className="flex flex-wrap justify-center items-start">
 
-                {/* Cards speciality */}
-                <div className="w-full md:w-1/4 px-1 mt-10">
+                
+
+            </div>
+
+<div className="flex flex-wrap justify-center items-start ">
+            {/* Cards speciality */}
+            <div className="w-full md:w-1/4 px-1 mt-10">
                     <Card className="bg-white shadow-lg h-97">
                         <h3 className="text-xl mtb-3 font-semibold text-center">Top Departments</h3>
                         {departments.map((dept, index) => (
@@ -153,7 +157,6 @@ function Dashboard() {
                         <Appoint/>
                     </div>
                 </div>
-
             </div>
         </>
     );

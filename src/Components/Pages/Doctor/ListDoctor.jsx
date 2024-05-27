@@ -182,7 +182,7 @@ const ListDoctor = () => {
             title: 'Active',
             key: 'active',
             render: (text, record) => (
-                <DoctorStatusSwitch id={record._id} onStatusChange={handleStatusChange} /> // Pass handleStatusChange as prop
+                <DoctorStatusSwitch id={record._id} onStatusChange={handleStatusChange} pagination={{ pageSize: 6 }}/> // Pass handleStatusChange as prop
             ),
         },
     ];
