@@ -6,13 +6,17 @@ import { Layout, Menu } from 'antd';
 
 import { ToggleContext } from './store/ToggleContext';
 import { LoginContext } from './store/LoginContext';
+import { jwtDecode } from 'jwt-decode';
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
 const SideBar = () => {
     const { collapsed } = useContext(ToggleContext);
-    const { decodedToken } = useContext(LoginContext);
+    //const { decodedToken } = useContext(LoginContext);
+    const token = localStorage.getItem('token')
+    const decodedToken =token ? jwtDecode(token):'';
+
 
     const items = [
         {
