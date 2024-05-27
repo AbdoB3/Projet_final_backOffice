@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Layout, Input, Avatar, Badge, Button, Modal, List, Form, Input as AntdInput } from 'antd';
 import { ToggleContext } from './store/ToggleContext';
 import { UserOutlined, LogoutOutlined, BellOutlined, SearchOutlined, SettingOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
@@ -7,7 +7,8 @@ import { faHeartbeat, faEnvelopeOpen, faEnvelope, faEdit, faClose } from '@forta
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, Dropdown } from 'antd';
 import { LoginContext } from './store/LoginContext';
-import { jwtDecode } from 'jwt-decode';
+import axios from 'axios';
+import {jwtDecode} from 'jwt-decode';
 
 const Header = () => {
   const token = localStorage.getItem('token');
@@ -40,6 +41,23 @@ const Header = () => {
     { id: 2, message: 'Inscription Docteur', read: false },
     { id: 3, message: 'Vous avez un rendez-vous de Docteur', read: false },
   ]);
+  const [profileImage, setProfileImage] = useState('');
+
+  useEffect(() => {
+    const fetchProfileImage = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/doctors/profile", { headers: { authorization: `Bearer ${token}` } });
+        const data = response.data;
+        setProfileImage(data.imageUrl);
+      } catch (error) {
+        console.error('Error fetching profile image:', error);
+      }
+    };
+
+    if (token) {
+      fetchProfileImage();
+    }
+  }, [token]);
 
   const showNotification = () => {
     setNotificationVisible(true);
@@ -97,8 +115,8 @@ const Header = () => {
         <Input placeholder="Rechercher..." prefix={<SearchOutlined />} className="w-48" />
       </div>
       <div className="flex items-center">
-        <Avatar className="bg-blue-950 mr-2" size={40}>
-          {decodedToken ? getInitials(decodedToken.name) : <UserOutlined />}
+        <Avatar src={profileImage} className="bg-blue-950 mr-2" size={40}>
+          {!profileImage && (decodedToken ? getInitials(decodedToken.name) : <UserOutlined />)}
         </Avatar>
         <div className="text-white text-lg font-semibold mr-4 cursor-pointer" onClick={showProfile}>
           <div>{decodedToken?.name}</div>

@@ -16,6 +16,8 @@ import Speciality from './Components/Pages/Speciality';
 
 
 import { LoginContext } from "./Components/store/LoginContext";
+import Sucess from "./Components/Pages/Success";
+
 
 
 
@@ -76,6 +78,7 @@ function App() {
       <Route path="/login" element={<SignIn/>} />
       <Route path="/ForgotPassword" element={<Forget />} />
       <Route path="/confirm" element={<Confirm />} />
+      <Route path="/sucess" element={<Sucess />} />
 
 
       <Route
