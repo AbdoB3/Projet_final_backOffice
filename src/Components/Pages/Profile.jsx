@@ -21,37 +21,21 @@ const ProfileForm = () => {
     fromTime: "",
     toTime: ""
   });
-  const [specialities, setSpecialities] = useState([]);
 
   useEffect(() => {
-    const fetchSpecialities = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/speciality");
-        setSpecialities(response.data);
-      } catch (error) {
-        console.error('Error fetching specialities:', error);
-      }
-    };
-
-    const fetchData = async () => {
-      fetchSpecialities();
-
-      axios.get("http://localhost:3000/doctors/profile", { headers: { authorization: `Bearer ${token}` } })
-        .then((response) => {
-          const data = response.data;
-          setFormm(data);
-          form.setFieldsValue({
-            ...data,
-            fromTime: data.fromTime ? moment(data.fromTime, 'HH:mm') : null,
-            toTime: data.toTime ? moment(data.toTime, 'HH:mm') : null,
-          });
-        })
-        .catch(error => {
-          console.error('Error fetching profile:', error);
+    axios.get("http://localhost:3000/doctors/profile", { headers: { authorization: `Bearer ${token}` } })
+      .then((response) => {
+        const data = response.data;
+        setFormm(data);
+        form.setFieldsValue({
+          ...data,
+          fromTime: data.fromTime ? moment(data.fromTime, 'HH:mm') : null,
+          toTime: data.toTime ? moment(data.toTime, 'HH:mm') : null,
         });
-    };
-
-    fetchData();
+      })
+      .catch(error => {
+        console.error('Error fetching profile:', error);
+      });
   }, [form, token]);
 
   const onFinish = async (values) => {
@@ -156,13 +140,7 @@ const ProfileForm = () => {
             <Input />
           </Form.Item>
           <Form.Item label="Speciality" name="speciality" rules={[{ required: false, message: 'Please input your speciality!' }]}>
-            <Select>
-              {specialities.map((speciality) => (
-                <Select.Option key={speciality._id} value={speciality.nom}>
-                  {speciality.nom}
-                </Select.Option>
-              ))}
-            </Select>
+            <Input />
           </Form.Item>
           <Form.Item label="Experience" name="experience" rules={[{ required: false, message: 'Please input your experience!' }]}>
             <Input />
