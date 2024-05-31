@@ -12,6 +12,7 @@ import { jwtDecode } from 'jwt-decode';
 
 function Dashboard() {
     const [sum, setSum] = useState({});
+    const [sumPrices,setSumPrices] = useState(0)
     const token = localStorage.getItem('token')
     const decodedToken = token? jwtDecode(token):""
     useEffect(() => {
@@ -19,14 +20,25 @@ function Dashboard() {
     }, []);
 
     const fetchSum = async () => {
-        const response = await axios.get('http://localhost:3000/patient/sum',
-            {
+        let response;
+    
+        if (decodedToken.role === "Admin") {
+            response = await axios.get('http://localhost:3000/patient/sum', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
-            })
-        setSum(response.data)
-    }
+            });
+        } else {
+            response = await axios.get(`http://localhost:3000/doctors/sum/${decodedToken.userId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+        }
+        setSum(response.data);
+        console.log(response.data)
+    };
+    
     const departments = [
         { name: "General Physician", percentage: 35, icon: faStethoscope },
         { name: "Dentist", percentage: 24, icon: faTooth },
@@ -123,7 +135,7 @@ function Dashboard() {
                         style={{ width: '80%' }} // Ajuster la largeur de la carte pour les petits écrans
                         className="transform transition-transform hover:scale-105 border-1 border-opacity-50 mx-auto shadow-lg"
                     >
-                        <p className="font-bold text-blue-900 text-4xl text-center"> $ 87</p>
+                        <p className="font-bold text-blue-900 text-4xl text-center"> $ {sum.result}</p>
                     </Card>
                 </div>
 </div>
