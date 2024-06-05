@@ -135,7 +135,7 @@ function Dashboard() {
                         style={{ width: '80%' }} // Ajuster la largeur de la carte pour les petits écrans
                         className="transform transition-transform hover:scale-105 border-1 border-opacity-50 mx-auto shadow-lg"
                     >
-                        <p className="font-bold text-blue-900 text-4xl text-center"> $ {sum.result}</p>
+                        <p className="font-bold text-blue-900 text-4xl text-center"> $ {sum.result || 0}</p>
                     </Card>
                 </div>
 </div>

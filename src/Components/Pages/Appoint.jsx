@@ -68,7 +68,6 @@ const MyTable = () => {
               }
             }));
             setAppointments(updatedAppointments)
-            console.log("it's DOCTOR",docConsultations);
           } catch (error) {
             console.error('Error fetching doctor consultations:', error);
           }
@@ -94,7 +93,8 @@ const MyTable = () => {
       key: 'motif_consultation',
       width: '20%',
       align: 'center',
-    },
+      render: motifs => motifs.join(', ')
+    }, // Join array elements into a single string
     {
       title: 'Patient Name',
       dataIndex: 'patientName',

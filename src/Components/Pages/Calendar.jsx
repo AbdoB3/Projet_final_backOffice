@@ -26,6 +26,7 @@ const MyCalendar = () => {
     }
 
     const getColorForEvent = (event) => {
+        console.log(event.date_consultation)
         const eventDateTime = moment(event.date_consultation);
         const now = moment();
         const oneHourFromNow = moment().add(3, 'hour');
