@@ -85,7 +85,7 @@ function Dashboard() {
                         style={{ width: '80%' }} // Ajuster la largeur de la carte pour les petits écrans
                         className="transform transition-transform hover:scale-105 border-1 border-opacity-50 mx-auto shadow-lg"
                     >
-                        <p className="font-bold text-blue-900 text-4xl text-center">{sum.sumConsultation}</p>
+                        <p className="font-bold text-blue-900 text-4xl text-center">{sum.sumConsultation || 0}</p>
                     </Card>
                 </div>
                 <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 mb-4 px-2">
@@ -101,7 +101,7 @@ function Dashboard() {
                         style={{ width: '80%' }} // Ajuster la largeur de la carte pour les petits écrans
                         className="transform transition-transform hover:scale-105 border-1 border-opacity-50 mx-auto shadow-lg"
                     >
-                        <p className="font-bold text-blue-900 text-4xl text-center">{sum.sumPatient}</p>
+                        <p className="font-bold text-blue-900 text-4xl text-center">{sum.sumPatient || 0}</p>
                     </Card>
                 </div>
 
@@ -118,7 +118,7 @@ function Dashboard() {
                     style={{ width: '80%' }} // Ajuster la largeur de la carte pour les petits écrans
                     className="transform transition-transform hover:scale-105 border-1 border-opacity-50 mx-auto shadow-lg"
                 >
-                    <p className="font-bold text-blue-900 text-4xl text-center">{sum.sumDoctor}</p>
+                    <p className="font-bold text-blue-900 text-4xl text-center">{sum.sumDoctor || 0}</p>
                 </Card>
             </div>):""}
                 
