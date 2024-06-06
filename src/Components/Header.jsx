@@ -46,8 +46,9 @@ const Header = () => {
   useEffect(() => {
     const fetchProfileImage = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/doctors/profile", { headers: { authorization: `Bearer ${token}` } });
+        const response = await axios.get(`http://localhost:3000/doctors/${decodedToken.userId}`, { headers: { authorization: `Bearer ${token}` } });
         const data = response.data;
+        console.log(data);
         setProfileImage(data.imageUrl);
       } catch (error) {
         console.error('Error fetching profile image:', error);

@@ -5,9 +5,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import moment from 'moment';
+import {jwtDecode} from 'jwt-decode';
+
 
 const ProfileForm = () => {
   const token = localStorage.getItem('token');
+  const decodedToken = token ? jwtDecode(token) : null;
   const [form] = Form.useForm();
   const [formm, setFormm] = useState({
     _id: "",
@@ -23,7 +26,7 @@ const ProfileForm = () => {
   });
 
   useEffect(() => {
-    axios.get("http://localhost:3000/doctors/profile", { headers: { authorization: `Bearer ${token}` } })
+    axios.get(`http://localhost:3000/doctors/${decodedToken.userId}`, { headers: { authorization: `Bearer ${token}` } })
       .then((response) => {
         const data = response.data;
         setFormm(data);

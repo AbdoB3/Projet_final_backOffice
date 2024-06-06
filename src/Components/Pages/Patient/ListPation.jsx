@@ -128,7 +128,7 @@ const ListPation = () => {
     },
     {
       title: 'City',
-      dataIndex: ['location', 'city'],
+      dataIndex: 'city',
     },
     {
       title: 'Email',
